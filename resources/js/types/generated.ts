@@ -1,0 +1,118 @@
+export type Address = {
+    province: string;
+    city: string;
+    address: string;
+    zip_code: string;
+    country: string;
+};
+export type AlertDto = {
+    type: AlertStatus;
+    message: string;
+};
+export type AlertStatus = 'success' | 'error' | 'info' | 'warning';
+export type DisciplinaryRecordDto = {
+    infraction: string;
+    penalty: string;
+    organ: string;
+    process_number: string;
+    record_date: any;
+    id: string | null;
+};
+export type EducationDto = {
+    school: string;
+    degree: string;
+    field_of_study: string;
+    start_date: any;
+    end_date: any | null;
+    grade: string | null;
+    activities: string | null;
+    description: string | null;
+    id: string | null;
+};
+export type EmploymentType = 'full_time' | 'part_time' | 'contract' | 'internship' | 'volunteer' | 'temporary' | 'seasonal' | 'freelance';
+export type ExperienceDto = {
+    title: string;
+    employment_type: EmploymentType;
+    company: string;
+    start_date: any;
+    end_date: any | null;
+    location: string | null;
+    description: string | null;
+    id: string | null;
+};
+export type KeyValueDto = {
+    key: string;
+    value: string;
+};
+export type MaritalStatus = 'single' | 'married' | 'divorced' | 'widowed';
+export type PatentData = {
+    id: string | null;
+    title: string | null;
+    description: string | null;
+};
+export type PresenceRegisterDto = {
+    id: string | null;
+    user_id: string | null;
+    user_name: string | null;
+    date: string | null;
+    check_in_time: string | null;
+    check_out_time: string | null;
+    check_in_location: string | null;
+    check_out_location: string | null;
+    notes: string | null;
+    is_late: boolean | null;
+    is_early_departure: boolean | null;
+    total_hours_minutes: number | null;
+};
+export type ReintegrationDto = {
+    id: number | null;
+    policeman_id: number | null;
+    departure_type: string | null;
+    reason: string | null;
+    unit: string | null;
+    category: string | null;
+    dispatch_report: string | null;
+    reintegration_date: string | null;
+};
+export type Sex = 'male' | 'female' | 'other';
+export type UserDto = {
+    name: string;
+    email: string;
+    NIP: string | null;
+    email_verified_at: any | string | null;
+    remember_token: string | null;
+    first_name: string | null;
+    second_name: string | null;
+    last_name: string | null;
+    sex: Sex | null;
+    language: string | null;
+    other_languages: Array<any> | null;
+    birth_date: any | string;
+    place_of_birth: string | null;
+    nationality: string | null;
+    marital_status: MaritalStatus | null;
+    id_number: string | null;
+    id_emitted_at: any | string | null;
+    id_expires_at: any | string | null;
+    passport_number: string | null;
+    passport_emitted_at: any | string | null;
+    passport_expires_at: any | string | null;
+    tax_number: string | null;
+    driver_licence: string | null;
+    email: string | null;
+    driver_licence_emitted_at: any | string | null;
+    driver_licence_expires_at: any | string | null;
+    dir: string | null;
+    dir_emitted_at: any | string | null;
+    dir_expires_at: any | string | null;
+    ingress_date: any | string;
+    contacts: Array<any> | null;
+    primary_contact: string | null;
+    emails: Array<any> | null;
+    primary_email: string | null;
+    id: string | null;
+    patent_id: string | null;
+    is_admin: boolean | null;
+    password: string | null;
+    phone: string | null;
+};

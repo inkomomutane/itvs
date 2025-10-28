@@ -1,0 +1,28 @@
+#  Laravel production docker-compose file
+
+services: 
+  server:
+    image: nginx:latest
+    container_name: laravel_server
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - laravel_network
+  database: 
+    image: mysql:latest
+    container_name: laravel_database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel_network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
