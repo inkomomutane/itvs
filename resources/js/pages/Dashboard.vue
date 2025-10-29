@@ -5,6 +5,9 @@ import { t } from '@/lib/utils';
 import  recipes from "@/images/recipes.svg"
 import  food from "@/images/food.svg"
 import  workers from "@/images/workers.svg"
+import  chefs from "@/images/chefs.svg"
+import  confirmations from "@/images/confirmations.svg"
+import reports  from "@/images/reports.svg"
 import DashboardLinkCard from '@/components/DashboardLinkCard.vue';
 import MSelect from '@/components/MSelect.vue';
 import DatePicker from '@/components/DatePicker/DatePicker.vue';
@@ -30,10 +33,12 @@ const breadcrumbs = [
             <DatePicker />
 
             <div class="grid sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-4 gap-8 xl:gap-8 ">
-                <DashboardLinkCard url="" :image-url="food" :title="$t('Food')" />
-                <DashboardLinkCard url="" :image-url="workers" :title="$t('Workers')" />
-                <DashboardLinkCard url="" :image-url="recipes" :title="$t('Recipes')" />
-                <DashboardLinkCard url="" :image-url="recipes" :title="$t('Recipes')" />
+                <DashboardLinkCard url="" :image-url="food" :title="$t('Order meal')" />
+                <DashboardLinkCard url="" :image-url="confirmations" :title="$t('Meal confirmations')" />
+                <DashboardLinkCard url="" :image-url="recipes" :title="$t('Menu registration')" :slug="t('Record')" />
+                <DashboardLinkCard :url="route('list-employees')" :image-url="workers" :title="$t('Employees')" :slug="t('Record')" />
+                <DashboardLinkCard url="" :image-url="chefs" :title="$t('Chefs')" :slug="t('Record')" />
+                <DashboardLinkCard url="" :image-url="reports" :title="$t('Meal reports')" />
             </div>
         </div>
     </AppLayout>

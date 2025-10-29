@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +22,8 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
         ]);
+
+        Role::updateOrCreate(['name' => 'chef'],['name' => 'chef']);
+        Role::updateOrCreate(['name' => 'employee'],['name' => 'employee']);
     }
 }

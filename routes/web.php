@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Employee\ListEmployees;
 use App\Http\Controllers\Profile\ProfileInfoController;
 use App\Http\Controllers\Profile\ProfileInfoUpdateController;
 use App\Http\Controllers\Profile\UploadMemberPicture;
@@ -26,7 +27,14 @@ Route::get('/profile/view/member/card', static function(){
 
 Route::post('member-upload-picture/{member}',UploadMemberPicture::class)->name('member-upload-picture')->middleware(['auth','verified']);
 
-# Members
+# Employee
+
+Route::middleware(['auth','verified'])->prefix('dashboard')->group(function (){
+    Route::get('/list-employees',ListEmployees::class)->name('list-employees');
+});
+
+
+
 
 
 require __DIR__.'/auth.php';

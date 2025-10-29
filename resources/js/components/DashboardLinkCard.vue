@@ -12,6 +12,10 @@ defineProps({
     title: {
         type: String,
         default: ''
+    },
+    slug : {
+        type: String,
+        default: 'SGR'
     }
 })
 
@@ -22,10 +26,11 @@ defineProps({
 
     <div class="rounded-lg outline outline-zinc-400/10 overflow-hidden  flex flex-col bg-white dark:bg-slate-950">
 
-        <div class="relative">
+        <div class="relative flex justify-center">
             <Link :href="url">
-            <img class="p-8"
+            <img class="p-8 max-h-48"
                  :src="imageUrl"
+
                  alt="Sunset in the mountains">
             <div
                 class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25 p-8">
@@ -34,7 +39,7 @@ defineProps({
             <Link href="#">
                 <div
                     class="text-xs absolute top-0 right-0 bg-indigo-600 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
-                    SGR
+                    {{ slug }}
                 </div>
             </Link>
         </div>

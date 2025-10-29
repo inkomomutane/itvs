@@ -15,6 +15,7 @@ class UserDto extends Data
         #[Required,Email]
         public string             $email,
         public ?string            $password = '',
+        public ?string            $role,
     )
     {
     }
@@ -26,6 +27,7 @@ class UserDto extends Data
             name: $user->name,
             email: $user->email,
             password: '',
+            role: $user->roles()?->first()?->name
         );
     }
 

@@ -21,6 +21,8 @@ class User extends Authenticatable implements HasMedia
     use HasFactory, Notifiable, HasUlids, WithData, HasRoles;
     use InteractsWithMedia;
 
+    protected $with = ['roles'];
+
     /**
      * The attributes that are mass assignable.
      *
