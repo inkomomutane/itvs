@@ -8,7 +8,7 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
-    <div class="flex min-h-screen flex-col items-center bg-green-300  p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
+    <div class="flex min-h-screen flex-col items-center bg-blue-300  p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
         <div class="duration-750 starting:opacity-0 flex w-full items-center justify-center opacity-100 transition-opacity lg:grow">
             <main class="flex w-full max-w-[335px] flex-col-reverse overflow-hidden rounded-lg lg:max-w-4xl lg:flex-row">
                 <div
@@ -40,7 +40,7 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
                     </ul>
                 </div>
                 <div
-                    class="relative -mb-px aspect-335/376 w-full shrink-0 overflow-hidden rounded-t-lg bg-green-400 lg:-ml-px lg:mb-0 lg:aspect-auto lg:w-[438px] lg:rounded-r-lg lg:rounded-t-none"
+                    class="relative -mb-px aspect-335/376 w-full shrink-0 overflow-hidden rounded-t-lg bg-blue-400 lg:-ml-px lg:mb-0 lg:aspect-auto lg:w-[438px] lg:rounded-r-lg lg:rounded-t-none"
                 >
 
                     <AppLogoIcon class-name=" py-24" />

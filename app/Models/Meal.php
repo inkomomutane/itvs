@@ -26,12 +26,17 @@ class Meal extends Model
         'reserved_at',
         'served_at',
         'status',
+        'worker_confirmation',
+        'chef_confirmation',
+        'confirmation_chef_id',
     ];
 
     protected function casts(): array
     {
         return [
             'meal_date' => 'date:Y-m-d',
+            'chef_confirmation' => 'datetime',
+            'worker_confirmation' => 'datetime',
             'period' => MealPeriod::class,
             'status' => MealStatus::class
         ];
@@ -46,5 +51,10 @@ class Meal extends Model
     public function worker(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function confirmationChef(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'confirmation_chef_id');
     }
 }
