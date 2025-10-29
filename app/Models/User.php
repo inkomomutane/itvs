@@ -6,6 +6,7 @@ use App\Data\UserDto;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\LaravelData\WithData;
@@ -70,5 +71,10 @@ class User extends Authenticatable implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatar')->singleFile();
+    }
+
+    public function meals(): HasMany
+    {
+        return $this->hasMany(Meal::class, 'worker_id');
     }
 }

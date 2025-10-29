@@ -6,6 +6,8 @@ import  recipes from "@/images/recipes.svg"
 import  food from "@/images/food.svg"
 import  workers from "@/images/workers.svg"
 import DashboardLinkCard from '@/components/DashboardLinkCard.vue';
+import MSelect from '@/components/MSelect.vue';
+import DatePicker from '@/components/DatePicker/DatePicker.vue';
 defineProps<{
     name?: string;
 }>();
@@ -22,6 +24,11 @@ const breadcrumbs = [
     <Head :title="$t('Dashboard')" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 mt-16 px-12 xl:px-0">
+            <MSelect
+                :options = "['Picks']"
+                />
+            <DatePicker />
+
             <div class="grid sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-4 gap-8 xl:gap-8 ">
                 <DashboardLinkCard url="" :image-url="food" :title="$t('Food')" />
                 <DashboardLinkCard url="" :image-url="workers" :title="$t('Workers')" />

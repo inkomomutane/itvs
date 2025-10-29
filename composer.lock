@@ -2903,7 +2903,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/common/zipball/098bb5e900c5381d326f3cfd953fee40045e299f",
+                "url": "https://api.github.com/repos/Laravel-Lang/zipball/098bb5e900c5381d326f3cfd953fee40045e299f",
                 "reference": "098bb5e900c5381d326f3cfd953fee40045e299f",
                 "shasum": ""
             },
@@ -2976,7 +2976,7 @@
                 "ui"
             ],
             "support": {
-                "issues": "https://github.com/Laravel-Lang/common/issues",
+                "issues": "https://github.com/Laravel-Lang/issues",
                 "source": "https://github.com/Laravel-Lang/common"
             },
             "time": "2025-03-04T07:34:14+00:00"

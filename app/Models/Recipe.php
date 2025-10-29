@@ -16,7 +16,7 @@ class Recipe extends Model implements HasMedia
     use HasUlids;
     use InteractsWithMedia;
 
-
+    public $incrementing = false;
 
     protected $fillable = [
         'name',
