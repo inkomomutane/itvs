@@ -36,7 +36,7 @@ const form = useForm<UserDto>({
 });
 
 const submit =  () => {
-    form.post(route('store-employee',), {
+    form.post(route('store-chef',), {
         preserveState: true,
         onSuccess: () => {
             props.close();
@@ -49,7 +49,7 @@ const submit =  () => {
     <Dialog  @update:open="props.close"  :open="props.openModal">
         <DialogScrollContent class="max-w-5xl" >
             <DialogHeader>
-                <DialogTitle> {{$t('Add employee')}}</DialogTitle>
+                <DialogTitle> {{$t('Add chef')}}</DialogTitle>
             </DialogHeader>
             <div>
                 <form @submit.prevent="submit">

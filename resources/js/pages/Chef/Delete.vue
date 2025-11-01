@@ -21,17 +21,17 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    employee: {
+    chef: {
         type:  Object as PropType<UserDto>,
         default: []
     }
 });
 
-const form = useForm<UserDto>(props.education);
+const form = useForm<UserDto>(props.chef);
 
 const submit =  () => {
-    form.delete(route('delete-employee',{
-        employee : props.employee?.id,
+    form.delete(route('delete-chef',{
+        user : props.chef?.id,
     }), {
         preserveState: true,
         onSuccess: () => {

@@ -7,7 +7,7 @@ use Spatie\LaravelData\Data;
 class RoleDto extends Data
 {
     public function __construct(
-        ?string $id,
-        string $name
+        public ?string $id,
+        public string $name
     ) {}
 }

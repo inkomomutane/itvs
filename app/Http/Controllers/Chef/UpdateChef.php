@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\Chef;
 
 use App\Data\AlertDto;
 use App\Data\UserDto;
 use App\Models\Role;
 use App\Models\User;
-use Throwable;
 
-class UpdateEmployee
+class UpdateChef
 {
     /**
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function __invoke(User $user,UserDto $dto)
     {
@@ -21,7 +20,7 @@ class UpdateEmployee
                 'email' => $dto->email,
                 'name' => $dto->name,
             ]);
-            $user->roles()->sync([Role::whereName('employee')->first()->id]);
+            $user->roles()->sync([Role::whereName('chef')->first()->id]);
             \DB::commit();
             return back()->with('messages', AlertDto::success(__('Updated')));
         }catch (\Exception) {

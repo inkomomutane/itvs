@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\Chef;
 
 use App\Data\AlertDto;
 use App\Data\UserDto;
@@ -9,7 +9,7 @@ use App\Models\User;
 use Hash;
 use Throwable;
 
-class StoreEmployee
+class StoreChef
 {
     /**
      * @throws Throwable
@@ -24,11 +24,11 @@ class StoreEmployee
                 'password' => Hash::make($dto->password),
             ]);
 
-            $user->roles()->sync([Role::whereName('employee')->first()->id]);
+            $user->roles()->sync([Role::whereName('chef')->first()->id]);
 
             \DB::commit();
             return back()->with('messages', AlertDto::success(__('Created')));
-        }catch (\Exception) {
+        }catch (\Exception $e) {
             \DB::rollBack();
             return back()->with('messages', AlertDto::error(__('Not created')));
         }

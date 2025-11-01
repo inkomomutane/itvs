@@ -37,7 +37,7 @@ const breadcrumbs = [
                 <DashboardLinkCard url="" :image-url="confirmations" :title="$t('Meal confirmations')" />
                 <DashboardLinkCard url="" :image-url="recipes" :title="$t('Menu registration')" :slug="t('Record')" />
                 <DashboardLinkCard :url="route('list-employees')" :image-url="workers" :title="$t('Employees')" :slug="t('Record')" />
-                <DashboardLinkCard url="" :image-url="chefs" :title="$t('Chefs')" :slug="t('Record')" />
+                <DashboardLinkCard :url="route('list-chefs')" :image-url="chefs" :title="$t('Chefs')" :slug="t('Record')" />
                 <DashboardLinkCard url="" :image-url="reports" :title="$t('Meal reports')" />
             </div>
         </div>

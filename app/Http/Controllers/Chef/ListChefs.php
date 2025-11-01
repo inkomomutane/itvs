@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\Chef;
 
 use App\Data\RoleDto;
 use App\Data\UserDto;
@@ -8,12 +8,12 @@ use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 
-class ListEmployees
+class ListChefs
 {
     public function __invoke()
     {
-        return Inertia::render('Employee/Index', [
-            'employees' =>static::handle(request()->search),
+        return Inertia::render('Chef/Index', [
+            'chefs' =>static::handle(request()->search),
             'roles' => RoleDto::collect(Role::all())
         ]);
     }
@@ -25,11 +25,10 @@ class ListEmployees
                 $query->whereAny([
                     'name',
                     'email',
-                    'password',
                 ], 'like', '%'.$search.'%');
             })
                 ->orderBy('created_at', 'desc')
-                ->whereRelation('roles','name','=','employee')
+                ->whereRelation('roles','name','=','chef')
                 ->paginate(5)
                 ->withQueryString()
         );

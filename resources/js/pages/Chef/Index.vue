@@ -20,7 +20,7 @@ import VCell from '@/components/VTable/VCell.vue';
 import Delete from './Delete.vue';
 
 const props = defineProps({
-    employees: {
+    chefs: {
         type: Object as PropType<Users>,
         required: true,
     },
@@ -33,11 +33,11 @@ const props = defineProps({
 const searchTerm = ref('');
 watch(searchTerm, (value) => {
     router.visit(
-        route('list-employees', {
+        route('list-chefs', {
             search: value ?? '',
         }),
         {
-            only: ['employees','roles'],
+            only: ['chefs','roles'],
             replace: true,
             preserveState: true,
         },
@@ -50,7 +50,7 @@ const deleteManagerRef = ref(crudManager<UserDto>());
 
 const tableData = ref<UserDto[]>([]);
 watch(
-    () => props.employees?.data,
+    () => props.chefs?.data,
     (newData) => {
         tableData.value = newData ?? [];
     },
@@ -122,20 +122,20 @@ const columns = [
                         </div>
                     </CardHeader>
                     <CardContent class="p-0">
-                        <VTable v-model="tableData" :columns-defs="columns" :pinning="{
+                        <VTable v-model="tableData" :columns-defs="columns"  :pinning="{
                             right: ['actions']
-                        }" />
+                        }"/>
                     </CardContent>
                     <CardFooter class="p-0">
                         <Pagination
-                            :from="employees?.from"
-                            :to="employees.to"
-                            :total="employees.total"
-                            :links="employees?.links"
-                            :first_page_url="employees?.first_page_url"
-                            :last_page_url="employees?.last_page_url"
-                            :next_page_url="employees.next_page_url"
-                            :prev_page_url="employees?.prev_page_url"
+                            :from="chefs?.from"
+                            :to="chefs.to"
+                            :total="chefs.total"
+                            :links="chefs?.links"
+                            :first_page_url="chefs?.first_page_url"
+                            :last_page_url="chefs?.last_page_url"
+                            :next_page_url="chefs.next_page_url"
+                            :prev_page_url="chefs?.prev_page_url"
                             class="p-4"
                         />
                     </CardFooter>
@@ -149,13 +149,13 @@ const columns = [
         :roles="roles"
         :openModal="editManagerRef.isModalOpen"
         :close="editManagerRef.close"
-        :employee="editManagerRef.model"
+        :chef="editManagerRef.model"
     />
 
     <Delete
         v-if="deleteManagerRef.isModalOpen"
         :openModal="deleteManagerRef.isModalOpen"
         :close="deleteManagerRef.close"
-        :employee="deleteManagerRef.model"
+        :chef="deleteManagerRef.model"
     />
    </template>

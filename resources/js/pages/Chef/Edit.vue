@@ -3,16 +3,21 @@
 import {
     Dialog,
     DialogClose,
+    DialogContent,
+    DialogDescription,
     DialogFooter,
     DialogHeader, DialogScrollContent, DialogTitle
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import {  UserDto } from '@/types/generated';
+import { ExperienceDto, KeyValueDto, MaritalStatus, PatentData, Sex, UserDto } from '@/types/generated';
 import { useForm } from '@inertiajs/vue3'
 import { Separator } from '@/components/ui/separator';
 import InputError from '@/components/InputError.vue';
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { PropType } from 'vue';
 
 const props = defineProps({
     close: {
@@ -26,17 +31,22 @@ const props = defineProps({
     roles: {
         type:  Array<RoleDto>,
         default: []
+    },
+    chef: {
+        type:  Object as PropType<UserDto>,
+        default: []
     }
 });
 
 const form = useForm<UserDto>({
-    name: '',
-    email: '',
-    password: '',
+    name: props.chef.name,
+    email: props.chef.email,
 });
 
 const submit =  () => {
-    form.post(route('store-employee',), {
+    form.post(route('update-chef',{
+        user: props.chef.id
+    }), {
         preserveState: true,
         onSuccess: () => {
             props.close();
@@ -47,13 +57,13 @@ const submit =  () => {
 </script>
 <template>
     <Dialog  @update:open="props.close"  :open="props.openModal">
-        <DialogScrollContent class="max-w-5xl" >
+        <DialogScrollContent class="max-w-3xl" >
             <DialogHeader>
-                <DialogTitle> {{$t('Add employee')}}</DialogTitle>
+                <DialogTitle> {{$t('Edit chef')}}</DialogTitle>
             </DialogHeader>
             <div>
                 <form @submit.prevent="submit">
-                    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="grid sm:grid-cols-2  gap-4">
                         <div class="grid w-full max-w-sm items-center gap-1.5">
                             <Label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {{$t('Name')}}
@@ -81,21 +91,7 @@ const submit =  () => {
                             />
                             <InputError :message="form.errors.email" class="mt-2" />
                         </div>
-                        <div class="grid w-full max-w-sm items-center gap-1.5 ">
-                            <Label for="password" class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                {{$t('Password')}}
-                            </Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                v-model="form.password"
-                                class="w-full"
-                                :placeholder="$t('Password')"
-                                required
-                            />
-                            <InputError :message="form.errors.password" class="mt-2" />
-                        </div>
-                        <separator class="md:col-span-3 mb-2"/>
+                        <separator class="md:col-span-2 mb-2"/>
                     </div>
                 </form>
             </div>
@@ -106,7 +102,7 @@ const submit =  () => {
                     </Button>
                 </DialogClose>
                 <Button  @click="submit">
-                    {{$t('Save')}}
+                    {{$t('Update')}}
                 </Button>
             </DialogFooter>
         </DialogScrollContent>

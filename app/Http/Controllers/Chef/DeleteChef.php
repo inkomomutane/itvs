@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\Chef;
 
 use App\Data\AlertDto;
 use App\Models\User;
 
-class DeleteEmployee
+class DeleteChef
 {
     /**
      * @throws \Throwable
