@@ -12,6 +12,10 @@ use App\Http\Controllers\Employee\UpdateEmployee;
 use App\Http\Controllers\Profile\ProfileInfoController;
 use App\Http\Controllers\Profile\ProfileInfoUpdateController;
 use App\Http\Controllers\Profile\UploadMemberPicture;
+use App\Http\Controllers\Recipe\DeleteRecipe;
+use App\Http\Controllers\Recipe\ListRecipes;
+use App\Http\Controllers\Recipe\StoreRecipe;
+use App\Http\Controllers\Recipe\UpdateRecipe;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -46,6 +50,12 @@ Route::middleware(['auth','verified'])->prefix('dashboard')->group(function (){
     Route::post('/store-chef', StoreChef::class)->name('store-chef');
     Route::match(['post','put','path'],'/update-employee/{user}', UpdateChef::class)->name('update-chef');
     Route::delete('/delete-chef/{user}', DeleteChef::class)->name('delete-chef');
+
+    Route::get('/list-recipes', ListRecipes::class)->name('list-recipes');
+    Route::post('/store-recipe', StoreRecipe::class)->name('store-recipe');
+    Route::match(['post','put','path'],'/update-recipe/{recipe}', UpdateRecipe::class)->name('update-recipe');
+    Route::delete('/delete-recipe/{recipe}', DeleteRecipe::class)->name('delete-recipe');
+
 });
 
 

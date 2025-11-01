@@ -24,7 +24,17 @@ class Recipe extends Model implements HasMedia
         'ingredients',
         'instructions',
         'active',
+        'date',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date:Y-m-d',
+            'active' => 'boolean',
+        ];
+    }
+
 
     public function registerMediaCollections(): void
     {

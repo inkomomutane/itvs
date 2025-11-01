@@ -421,5 +421,19 @@
     "Widowed": "Viúvo",
     "Male": "Masculino",
     "Female": "Feminino",
-    "Other": "Outro"
+    "Other": "Outro",
+    "Today": "Hoje",
+    "Yesterday": "Ontem",
+    "Last 7 Days": "Últimos 7 dias",
+    "Last 30 Days": "Últimos 30 dias",
+    "This Month": "Este mês",
+    "Last Month": "Mês passado",
+    "This Year": "Este ano",
+    "Last Year": "Ano passado",
+    "Tomorrow": "Amanhã",
+    "In 2 days": "Daqui a 2 dias",
+    "In 3 days": "Daqui a 3 dias",
+    "In 4 days": "Daqui a 4 dias",
+    "In 5 days": "Daqui a 5 dias",
+    "In 6 days": "Daqui a 6 dias"
 }

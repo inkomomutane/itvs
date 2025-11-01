@@ -5,7 +5,7 @@ namespace App\Data;
 use App\Enum\MealPeriod;
 use Illuminate\Support\Facades\Date;
 use Spatie\LaravelData\Data;
-
+/** @typescript  */
 class MealDto extends Data
 {
     public function __construct(

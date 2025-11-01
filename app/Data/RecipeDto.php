@@ -2,16 +2,21 @@
 
 namespace App\Data;
 
+use Illuminate\Support\Carbon;
+use Spatie\LaravelData\Attributes\WithCast;
+use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
-
+/** @typescript  */
 class RecipeDto extends Data
 {
     public function __construct(
-        public ?int    $id,
+        public ?string     $id,
         public string  $name,
-        public ?string $description,
-        public ?string $ingredients,
-        public ?string $instructions,
+        #[WithCast(DateTimeInterfaceCast::class,format:'Y-d-m')]
+        public Carbon  $date,
+        public ?string $description = '',
+        public ?string  $ingredients ='',
+        public ?string  $instructions = '',
         public ?bool   $active = true,
     ) {}
 }

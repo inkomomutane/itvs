@@ -3,7 +3,7 @@
 namespace App\Data;
 
 use Spatie\LaravelData\Data;
-
+/** @typescript  */
 class RoleDto extends Data
 {
     public function __construct(

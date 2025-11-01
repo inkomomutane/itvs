@@ -35,7 +35,7 @@ const breadcrumbs = [
             <div class="grid sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-4 gap-8 xl:gap-8 ">
                 <DashboardLinkCard url="" :image-url="food" :title="$t('Order meal')" />
                 <DashboardLinkCard url="" :image-url="confirmations" :title="$t('Meal confirmations')" />
-                <DashboardLinkCard url="" :image-url="recipes" :title="$t('Menu registration')" :slug="t('Record')" />
+                <DashboardLinkCard :url="route('list-recipes')" :image-url="recipes" :title="$t('Menu registration')" :slug="t('Record')" />
                 <DashboardLinkCard :url="route('list-employees')" :image-url="workers" :title="$t('Employees')" :slug="t('Record')" />
                 <DashboardLinkCard :url="route('list-chefs')" :image-url="chefs" :title="$t('Chefs')" :slug="t('Record')" />
                 <DashboardLinkCard url="" :image-url="reports" :title="$t('Meal reports')" />
