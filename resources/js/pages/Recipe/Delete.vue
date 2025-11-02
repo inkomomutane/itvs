@@ -8,7 +8,7 @@ import {
     DialogHeader, DialogScrollContent, DialogTitle
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { EducationDto, UserDto } from '@/types/generated';
+import { EducationDto, RecipeDto, UserDto } from '@/types/generated';
 import { useForm } from '@inertiajs/vue3'
 import { PropType } from "vue"
 
@@ -21,17 +21,17 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    chef: {
-        type:  Object as PropType<UserDto>,
+    recipe: {
+        type:  Object as PropType<RecipeDto>,
         default: []
     }
 });
 
-const form = useForm<UserDto>(props.chef);
+const form = useForm<RecipeDto>(props.recipe);
 
 const submit =  () => {
-    form.delete(route('delete-chef',{
-        user : props.chef?.id,
+    form.delete(route('delete-recipe',{
+        recipe : props.recipe?.id,
     }), {
         preserveState: true,
         onSuccess: () => {

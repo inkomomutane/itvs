@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { h, PropType, ref, watch } from 'vue';
+import { computed, h, PropType, ref, watch } from 'vue';
 import { Users } from '@/types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { PencilIcon, Search, Plus } from 'lucide-vue-next';
+import { PencilIcon, Search, Plus, CalendarIcon } from 'lucide-vue-next';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Pagination from '@/components/Pagination.vue';
 import Heading from '@/components/Heading.vue';
-import { crudManager, t } from '@/lib/utils';
+import { cn, crudManager, t } from '@/lib/utils';
 import { KeyValueDto, UserDto } from '@/types/generated';
 import Create from './Create.vue';
 import Edit from './Edit.vue';
@@ -23,9 +23,16 @@ import {
     DateFormatter,
     getLocalTimeZone,
     parseDate,
-    parseAbsolute
+    parseAbsolute,
+    today,
+    DateValue,
+    CalendarDate
 } from '@internationalized/date';
 import food from '@/images/food.svg';
+import { formatDate } from '../../helpers';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 const props = defineProps({
     recipes: {
         type: Object as PropType<Users>,
@@ -33,14 +40,40 @@ const props = defineProps({
     },
     date: {
         type: String,
-        default: new Date(),
+        default: today(getLocalTimeZone()).toDate().toISOString()
     },
 });
 
+const items = [
+    { value: 0, label: t('Today') },
+    { value: 1, label: t('Tomorrow') },
+    { value: 2, label: t('In 2 days') },
+    { value: 3, label: t('In 3 days') },
+    { value: 4, label: t('In 4 days') },
+    { value: 5, label: t('In 5 days') },
+    { value: 6, label: t('In 6 days') },
+];
 
-const df = new DateFormatter('en-US', {
-    dateStyle: 'long'
-});
+const tryParseDate = (dateStr: string): Date => {
+    try {
+        return parseDate(dateStr, getLocalTimeZone());
+    } catch {
+       return parseAbsolute(dateStr);
+    }
+};
+
+
+
+const value = ref<DateValue>(tryParseDate(props.date));
+const formatedDate = computed(()=> {
+    const auxDate = new Date();
+    if (!value.value) return new CalendarDate(auxDate.getFullYear(),auxDate.getMonth()+1,auxDate.getDate()).toString();
+    return new CalendarDate(
+        (value.value as CalendarDate).year,
+        (value.value as CalendarDate).month,
+        (value.value as CalendarDate).day
+    ).toString();
+})
 
 const searchTerm = ref('');
 watch(searchTerm, (value) => {
@@ -55,6 +88,28 @@ watch(searchTerm, (value) => {
         },
     );
 });
+
+watch(
+    () => value.value,
+    (newValue) => {
+        if (!newValue) return;
+        router.visit(
+            route('list-recipes', {
+                date: new CalendarDate(
+                    (value.value as CalendarDate).year,
+                    (value.value as CalendarDate).month,
+                    (value.value as CalendarDate).day
+                ).toString(),
+                search: searchTerm.value ?? '',
+            }),
+            {
+                only: ['recipes','date'],
+                replace: true,
+                preserveState: true,
+            },
+        );
+    },
+);
 
 const crudManagerRef = ref(crudManager<UserDto>());
 const editManagerRef = ref(crudManager<UserDto>());
@@ -81,12 +136,48 @@ const columnHelper = createColumnHelper<UserDto>();
             <div class="mx-auto flex h-full max-w-7xl flex-1 flex-col gap-4 rounded-xl">
                 <Card class="rounded-sm shadow-none">
                     <CardHeader class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-x-4 md:space-y-0">
-                        <div class="relative w-full max-w-sm items-center">
-                            <Input v-model="searchTerm" id="search" type="text" :placeholder="t('Search') + '...'" class="pl-10" />
-                            <span class="absolute inset-y-0 start-0 flex items-center justify-center px-2">
+                        <div class="flex flex-row items-center gap-4">
+                             <div>
+                                 <Popover>
+                                     <PopoverTrigger as-child>
+                                         <Button
+                                             variant="outline"
+                                             :class="cn(  'justify-start text-left font-normal',!value && 'text-muted-foreground')"
+                                         >
+                                             <CalendarIcon class="mr-2 h-4 w-4" />
+                                             {{ value ? formatDate(value) : 'Pick a date' }}
+                                         </Button>
+                                     </PopoverTrigger>
+                                     <PopoverContent class="flex min-w-32 w-full flex-col gap-y-2 p-2">
+                                         <Select
+                                             @update:model-value="(v) => {
+                                                  if (!v) return;
+                                                  value = today(getLocalTimeZone()).add({ days: Number(v) });
+                                                }"
+                                         >
+                                             <SelectTrigger class="w-full min-w-32 justify-between">
+                                                 <SelectValue placeholder="Select" class="w-full min-w-32 justify-between" />
+                                             </SelectTrigger>
+                                             <SelectContent class="!w-full">
+                                                 <SelectItem v-for="item in items" :key="item.value"
+                                                             :value="item.value.toString()">
+                                                     {{ item.label }}
+                                                 </SelectItem>
+                                             </SelectContent>
+                                         </Select>
+                                         <Calendar locale="pt" :min-value="today(getLocalTimeZone())" v-model="value" />
+                                     </PopoverContent>
+                                 </Popover>
+                             </div>
+
+                            <div class="relative w-full max-w-sm items-center">
+                                <Input v-model="searchTerm" id="search" type="text" :placeholder="t('Search') + '...'" class="pl-10" />
+                                <span class="absolute inset-y-0 start-0 flex items-center justify-center px-2">
                                 <Search class="size-4 text-muted-foreground" />
                             </span>
+                            </div>
                         </div>
+
                         <div class="flex w-full shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
                             <Button @click="crudManagerRef.open(null)">
                                 {{ t('Add') }}
@@ -112,18 +203,24 @@ const columnHelper = createColumnHelper<UserDto>();
                                     <ItemTitle>
                                         {{ recipe.name }}
                                     </ItemTitle>
-                                    <ItemDescription>
-                                        <!-- internationzlized/date  -->
-
-                                        {{  df.format(parseAbsolute(recipe.date).toDate(getLocalTimeZone())) }}
+                                    <ItemDescription class="first-letter:capitalize">
+                                        {{ formatDate(parseAbsolute(recipe.date)) }}
                                     </ItemDescription>
                                 </ItemContent>
-                                <ItemActions>
+                                <ItemActions class="flex flex-col gap-2">
                                     <Button
                                         size="sm"
                                         variant="outline"
                                         aria-label="Invite"
                                         @click="editManagerRef.open(recipe)"
+                                    >
+                                        {{ t('Edit') }}
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        aria-label="Invite"
+                                        @click="deleteManagerRef.open(recipe)"
                                     >
                                       {{ t('Delete') }}
                                     </Button>
@@ -150,19 +247,19 @@ const columnHelper = createColumnHelper<UserDto>();
             </div>
         </div>
     </AppLayout>
-    <Create v-if="crudManagerRef.isModalOpen" :roles="roles" :openModal="crudManagerRef.isModalOpen" :close="crudManagerRef.close" />
+    <Create v-if="crudManagerRef.isModalOpen"  :date="formatedDate" :openModal="crudManagerRef.isModalOpen" :close="crudManagerRef.close" />
     <Edit
         v-if="editManagerRef.isModalOpen"
-        :roles="roles"
         :openModal="editManagerRef.isModalOpen"
         :close="editManagerRef.close"
-        :chef="editManagerRef.model"
+        :recipe="editManagerRef.model"
+        :date="value"
     />
 
     <Delete
         v-if="deleteManagerRef.isModalOpen"
         :openModal="deleteManagerRef.isModalOpen"
         :close="deleteManagerRef.close"
-        :chef="deleteManagerRef.model"
+        :recipe="deleteManagerRef.model"
     />
    </template>

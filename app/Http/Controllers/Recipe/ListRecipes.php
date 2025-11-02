@@ -13,8 +13,8 @@ class ListRecipes
     public function __invoke(Request $request)
     {
         return Inertia::render('Recipe/Index', [
-            'recipes' => static::handle(Carbon::create($request->get('meal_date',now()->format('Y-m-d'))),request()->search),
-            'date' => $request->get('meal_date',now()->format('Y-m-d'))
+            'recipes' => static::handle(Carbon::create($request->get('date',now()->format('Y-m-d'))),request()->search),
+            'date' => $request->get('date',now()->format('Y-m-d'))
         ]);
     }
 
@@ -27,7 +27,8 @@ class ListRecipes
                     'description',
                 ], 'like', '%' . $search . '%');
             })
-                ->orderBy('created_at', 'desc')
+                ->whereDate('date', $date)
+                ->orderBy('date', 'desc')
                 ->paginate(5)
                 ->withQueryString()
         );

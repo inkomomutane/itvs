@@ -12,7 +12,7 @@ class RecipeDto extends Data
     public function __construct(
         public ?string     $id,
         public string  $name,
-        #[WithCast(DateTimeInterfaceCast::class,format:'Y-d-m')]
+        #[WithCast(DateTimeInterfaceCast::class,format:'Y-m-d')]
         public Carbon  $date,
         public ?string $description = '',
         public ?string  $ingredients ='',

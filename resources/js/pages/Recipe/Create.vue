@@ -8,15 +8,17 @@ import {
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { UserDto } from '@/types/generated';
 import { useForm } from '@inertiajs/vue3';
-import { Separator } from '@/components/ui/separator';
 import InputError from '@/components/InputError.vue';
 import type { DateValue } from '@internationalized/date';
+import { pt } from "date-fns/locale";
 import {
     DateFormatter,
     getLocalTimeZone,
-    today
+    today,
+    parseAbsolute,
+    CalendarDate,
+    parseDate
 } from '@internationalized/date';
 import { CalendarIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
@@ -27,6 +29,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { TiptapContent, TiptapProvider, TiptapStatusBar, TiptapToolbar } from '@/components/ui/tiptap';
 import StarterKit from '@tiptap/starter-kit';
 import { useEditor } from '@tiptap/vue-3';
+import { formatDate } from '../../helpers';
 
 
 const props = defineProps({
@@ -40,7 +43,7 @@ const props = defineProps({
     },
     date: {
         type: String,
-        default: []
+        default: today(getLocalTimeZone()).toDate().toISOString()
     }
 });
 
@@ -58,7 +61,15 @@ const items = [
     { value: 6, label: t('In 6 days') },
 ];
 
-const value = ref<DateValue>();
+
+const tryParseDate = (dateStr: string): Date => {
+    try {
+        return parseDate(dateStr, getLocalTimeZone());
+    } catch {
+        return parseAbsolute(dateStr);
+    }
+};
+const value = ref<DateValue>(tryParseDate(props.date));
 const editor = useEditor({
     content: '',
     extensions: [
@@ -71,14 +82,17 @@ const name = ref('');
 const form = useForm<RecipeDto>({
     name: '',
     description: null,
-    date: null
+    date: ''
 });
 
 const submit = () => {
-
     // form.description = editor.value || '';
-    //date format to Y-m-d
-    form.date = value.value ? `${value.value.year}-${String(value.value.month).padStart(2, '0')}-${String(value.value.day).padStart(2, '0')}` : null;
+    form.date =  new CalendarDate(
+        (value.value as CalendarDate).year,
+        (value.value as CalendarDate).month,
+        (value.value as CalendarDate).day
+    ).toString();
+    form.description = editor?.value?.getHTML() || '';
 
     form.post(route('store-recipe'), {
         preserveState: true,
@@ -130,10 +144,11 @@ const submit = () => {
                                 <PopoverTrigger as-child>
                                     <Button
                                         variant="outline"
+                                        :disabled="true"
                                         :class="cn(  'justify-start text-left font-normal',!value && 'text-muted-foreground')"
                                     >
                                         <CalendarIcon class="mr-2 h-4 w-4" />
-                                        {{ value ? df.format(value.toDate(getLocalTimeZone())) : 'Pick a date' }}
+                                        {{ value ? formatDate(value) : 'Pick a date' }}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent class="flex min-w-32 w-full flex-col gap-y-2 p-2">
@@ -153,7 +168,7 @@ const submit = () => {
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
-                                    <Calendar :min-value="today(getLocalTimeZone())" v-model="value" />
+                                    <Calendar locale="pt" :min-value="today(getLocalTimeZone())" v-model="value" />
                                 </PopoverContent>
                             </Popover>
                             <InputError :message="form.errors.date" class="mt-2" />

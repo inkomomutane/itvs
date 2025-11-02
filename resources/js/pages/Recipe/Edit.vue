@@ -1,108 +1,186 @@
 <script setup lang="ts">
-
 import {
     Dialog,
     DialogClose,
-    DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader, DialogScrollContent, DialogTitle
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { ExperienceDto, KeyValueDto, MaritalStatus, PatentData, Sex, UserDto } from '@/types/generated';
-import { useForm } from '@inertiajs/vue3'
-import { Separator } from '@/components/ui/separator';
+import { useForm } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
-import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { PropType } from 'vue';
+import type { DateValue} from '@internationalized/date';
+import { parseAbsolute } from '@internationalized/date';
+import {
+    DateFormatter,
+    getLocalTimeZone,
+    today,
+    parseDate,
+    CalendarDate
+} from '@internationalized/date';
+import { CalendarIcon } from 'lucide-vue-next';
+import { PropType, ref } from 'vue';
+import { cn,t } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { TiptapContent, TiptapProvider, TiptapStatusBar, TiptapToolbar } from '@/components/ui/tiptap';
+import StarterKit from '@tiptap/starter-kit';
+import { useEditor } from '@tiptap/vue-3';
+import { RecipeDto } from '@/types/generated';
+
 
 const props = defineProps({
     close: {
         type: Function,
-        required: true,
+        required: true
     },
     openModal: {
         type: Boolean,
-        required: true,
+        required: true
     },
-    roles: {
-        type:  Array<RoleDto>,
+    date: {
+        type: String,
         default: []
     },
-    chef: {
-        type:  Object as PropType<UserDto>,
-        default: []
+    recipe : {
+        type: Object as PropType<RecipeDto>,
+        required: true
     }
 });
 
-const form = useForm<UserDto>({
-    name: props.chef.name,
-    email: props.chef.email,
+const df = new DateFormatter('en-US', {
+    dateStyle: 'long'
 });
 
-const submit =  () => {
-    form.post(route('update-chef',{
-        user: props.chef.id
+const items = [
+    { value: 0, label: t('Today') },
+    { value: 1, label: t('Tomorrow') },
+    { value: 2, label: t('In 2 days') },
+    { value: 3, label: t('In 3 days') },
+    { value: 4, label: t('In 4 days') },
+    { value: 5, label: t('In 5 days') },
+    { value: 6, label: t('In 6 days') },
+];
+
+const value = ref<DateValue>(props.recipe.date ? parseAbsolute(props.recipe.date) : undefined);
+const editor = useEditor({
+    content: props.recipe?.description || '',
+    extensions: [
+        StarterKit
+    ]
+});
+const name = ref('');
+
+
+const form = useForm<RecipeDto>({
+    name: props.recipe.name || '',
+    description: null,
+    date: props.recipe.date || ''
+});
+
+const submit = () => {
+
+    // form.description = editor.value || '';
+    form.date =  new CalendarDate(
+        (value.value as CalendarDate).year,
+        (value.value as CalendarDate).month,
+        (value.value as CalendarDate).day
+    ).toString();
+    form.description = editor?.value?.getHTML() || '';
+
+    form.post(route('update-recipe',{
+        recipe: props.recipe.id
     }), {
         preserveState: true,
         onSuccess: () => {
             props.close();
         }
-    })
-}
+    });
+};
 
 </script>
 <template>
-    <Dialog  @update:open="props.close"  :open="props.openModal">
-        <DialogScrollContent class="max-w-3xl" >
+    <Dialog @update:open="props.close" :open="props.openModal">
+        <DialogScrollContent class="max-w-5xl">
             <DialogHeader>
-                <DialogTitle> {{$t('Edit chef')}}</DialogTitle>
+                <DialogTitle> {{ $t('Edit recipe') }}</DialogTitle>
             </DialogHeader>
             <div>
                 <form @submit.prevent="submit">
-                    <div class="grid sm:grid-cols-2  gap-4">
-                        <div class="grid w-full max-w-sm items-center gap-1.5">
+                    <div class="grid  gap-4">
+                        <div class="grid w-full  items-center gap-1.5">
                             <Label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                {{$t('Name')}}
+                                {{ $t('Name') }}
                             </Label>
                             <Input
                                 id="name"
                                 type="text"
                                 v-model="form.name"
                                 class="w-full"
-                                :placeholder="$t('Enter your name')"
+                                :placeholder="$t('Recipe name')"
                             />
                             <InputError :message="form.errors.name" class="mt-2" />
                         </div>
-                        <div class="grid w-full max-w-sm items-center gap-1.5">
+                        <div class="grid w-full  items-center gap-1.5">
                             <Label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                {{$t('Email')}}
+                                {{ $t('Description') }}
                             </Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                v-model="form.email"
-                                class="w-full"
-                                :placeholder="$t('email')"
-                                required
-                            />
-                            <InputError :message="form.errors.email" class="mt-2" />
+                            <TiptapProvider :editor="editor" class="border p-1">
+                                <TiptapToolbar />
+                                <TiptapContent class="border" />
+                                <TiptapStatusBar show-word-count />
+                            </TiptapProvider>
+                            <InputError :message="form.errors.description" class="mt-2" />
                         </div>
-                        <separator class="md:col-span-2 mb-2"/>
+                        <div class="grid w-full  items-center gap-1.5">
+                            <Label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ $t('Date') }}
+                            </Label>
+                            <Popover>
+                                <PopoverTrigger as-child>
+                                    <Button
+                                        variant="outline"
+                                        :class="cn(  'justify-start text-left font-normal',!value && 'text-muted-foreground')"
+                                    >
+                                        <CalendarIcon class="mr-2 h-4 w-4" />
+                                        {{ value ? df.format(value.toDate(getLocalTimeZone())) : 'Pick a date' }}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent class="flex min-w-32 w-full flex-col gap-y-2 p-2">
+                                    <Select
+                                        @update:model-value="(v) => {
+                                                  if (!v) return;
+                                                  value = today(getLocalTimeZone()).add({ days: Number(v) });
+                                                }"
+                                    >
+                                        <SelectTrigger class="w-full min-w-32 justify-between">
+                                            <SelectValue placeholder="Select" class="w-full min-w-32 justify-between" />
+                                        </SelectTrigger>
+                                        <SelectContent class="!w-full">
+                                            <SelectItem v-for="item in items" :key="item.value"
+                                                        :value="item.value.toString()">
+                                                {{ item.label }}
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <Calendar :min-value="today(getLocalTimeZone())" v-model="value" />
+                                </PopoverContent>
+                            </Popover>
+                            <InputError :message="form.errors.date" class="mt-2" />
+                        </div>
                     </div>
                 </form>
             </div>
             <DialogFooter>
                 <DialogClose as-child>
                     <Button variant="secondary">
-                        {{$t('Cancel')}}
+                        {{ $t('Cancel') }}
                     </Button>
                 </DialogClose>
-                <Button  @click="submit">
-                    {{$t('Update')}}
+                <Button @click="submit">
+                    {{ $t('Update') }}
                 </Button>
             </DialogFooter>
         </DialogScrollContent>

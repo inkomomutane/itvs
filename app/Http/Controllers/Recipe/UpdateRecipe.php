@@ -11,11 +11,11 @@ class UpdateRecipe
     /**
      * @throws \Throwable
      */
-    public function __invoke(Recipe $user,RecipeDto $dto)
+    public function __invoke(Recipe $recipe,RecipeDto $dto)
     {
         try {
             \DB::beginTransaction();
-            $user->update([
+            $recipe->update([
                 'name' => $dto->name,
                 'description' => $dto->description,
                 'date' => $dto->date,
