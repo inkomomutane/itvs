@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('ingredients')->nullable();
             $table->text('instructions')->nullable();
+            $table->string('period');
             $table->boolean('active')->default(true);
             $table->date('date');
             $table->dateTime('created_at')->useCurrent();

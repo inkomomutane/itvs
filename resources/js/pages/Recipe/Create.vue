@@ -30,6 +30,8 @@ import { TiptapContent, TiptapProvider, TiptapStatusBar, TiptapToolbar } from '@
 import StarterKit from '@tiptap/starter-kit';
 import { useEditor } from '@tiptap/vue-3';
 import { formatDate } from '../../helpers';
+import MSelect from '@/components/MSelect.vue';
+import { KeyValueDto, RecipeDto } from '@/types/generated';
 
 
 const props = defineProps({
@@ -44,6 +46,10 @@ const props = defineProps({
     date: {
         type: String,
         default: today(getLocalTimeZone()).toDate().toISOString()
+    },
+    periods : {
+        type: Array<KeyValueDto>,
+        default: () => []
     }
 });
 
@@ -82,7 +88,8 @@ const name = ref('');
 const form = useForm<RecipeDto>({
     name: '',
     description: null,
-    date: ''
+    date: '',
+    period: null,
 });
 
 const submit = () => {
@@ -110,7 +117,7 @@ const submit = () => {
                 <DialogTitle> {{ $t('Add recipe') }}</DialogTitle>
             </DialogHeader>
             <div>
-                <form @submit.prevent="submit">
+                <div>
                     <div class="grid  gap-4">
                         <div class="grid w-full  items-center gap-1.5">
                             <Label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -124,6 +131,18 @@ const submit = () => {
                                 :placeholder="$t('Recipe name')"
                             />
                             <InputError :message="form.errors.name" class="mt-2" />
+                        </div>
+                        <div class="grid w-full  items-center gap-1.5">
+                            <Label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ $t('Period') }}
+                            </Label>
+                            <MSelect :options="props.periods"
+                                     v-model="form.period"
+                                     :reduce="(e) => e.key"
+                                     :get-label="(e) => t(e.value)"
+                                     :placeholder="$t('Period')"
+                            />
+                            <InputError :message="form.errors.period" class="mt-2" />
                         </div>
                         <div class="grid w-full  items-center gap-1.5">
                             <Label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -174,7 +193,7 @@ const submit = () => {
                             <InputError :message="form.errors.date" class="mt-2" />
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
             <DialogFooter>
                 <DialogClose as-child>
@@ -182,7 +201,7 @@ const submit = () => {
                         {{ $t('Cancel') }}
                     </Button>
                 </DialogClose>
-                <Button @click="submit">
+                <Button @click="submit" type="button">
                     {{ $t('Save') }}
                 </Button>
             </DialogFooter>

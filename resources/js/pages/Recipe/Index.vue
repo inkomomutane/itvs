@@ -33,6 +33,7 @@ import { formatDate } from '../../helpers';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
+import { Badge } from '@/components/ui/badge';
 const props = defineProps({
     recipes: {
         type: Object as PropType<Users>,
@@ -42,6 +43,10 @@ const props = defineProps({
         type: String,
         default: today(getLocalTimeZone()).toDate().toISOString()
     },
+    periods : {
+        type: Array<KeyValueDto>,
+        default: () => []
+    }
 });
 
 const items = [
@@ -203,6 +208,11 @@ const columnHelper = createColumnHelper<UserDto>();
                                     <ItemTitle>
                                         {{ recipe.name }}
                                     </ItemTitle>
+                                    <div>
+                                        <ItemDescription class="first-letter:capitalize">
+                                            <Badge variant="outline">{{ t(recipe.period) }}</Badge>
+                                        </ItemDescription>
+                                    </div>
                                     <ItemDescription class="first-letter:capitalize">
                                         {{ formatDate(parseAbsolute(recipe.date)) }}
                                     </ItemDescription>
@@ -247,13 +257,14 @@ const columnHelper = createColumnHelper<UserDto>();
             </div>
         </div>
     </AppLayout>
-    <Create v-if="crudManagerRef.isModalOpen"  :date="formatedDate" :openModal="crudManagerRef.isModalOpen" :close="crudManagerRef.close" />
+    <Create  :periods="periods" v-if="crudManagerRef.isModalOpen"  :date="formatedDate" :openModal="crudManagerRef.isModalOpen" :close="crudManagerRef.close" />
     <Edit
         v-if="editManagerRef.isModalOpen"
         :openModal="editManagerRef.isModalOpen"
         :close="editManagerRef.close"
         :recipe="editManagerRef.model"
         :date="value"
+        :periods="periods"
     />
 
     <Delete

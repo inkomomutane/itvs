@@ -37,6 +37,8 @@ class Meal extends Model
             'meal_date' => 'date:Y-m-d',
             'chef_confirmation' => 'datetime',
             'worker_confirmation' => 'datetime',
+            'reserved_at' => 'datetime',
+            'served_at' => 'datetime',
             'period' => MealPeriod::class,
             'status' => MealStatus::class
         ];

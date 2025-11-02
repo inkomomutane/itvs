@@ -9,6 +9,9 @@ use App\Http\Controllers\Employee\DeleteEmployee;
 use App\Http\Controllers\Employee\ListEmployees;
 use App\Http\Controllers\Employee\StoreEmployee;
 use App\Http\Controllers\Employee\UpdateEmployee;
+use App\Http\Controllers\Meal\OrderMeal;
+use App\Http\Controllers\Meal\WorkerMealConfirmation;
+use App\Http\Controllers\Meal\WorkerUnconfirmedMeals;
 use App\Http\Controllers\Profile\ProfileInfoController;
 use App\Http\Controllers\Profile\ProfileInfoUpdateController;
 use App\Http\Controllers\Profile\UploadMemberPicture;
@@ -55,6 +58,12 @@ Route::middleware(['auth','verified'])->prefix('dashboard')->group(function (){
     Route::post('/store-recipe', StoreRecipe::class)->name('store-recipe');
     Route::match(['post','put','path'],'/update-recipe/{recipe}', UpdateRecipe::class)->name('update-recipe');
     Route::delete('/delete-recipe/{recipe}', DeleteRecipe::class)->name('delete-recipe');
+
+
+    #
+
+    Route::get('worker-meals-unconfirmed', WorkerUnconfirmedMeals::class)->name('worker-meals-unconfirmed');
+    Route::post('order-meal/{recipe}', OrderMeal::class)->name('order-meal');
 
 });
 

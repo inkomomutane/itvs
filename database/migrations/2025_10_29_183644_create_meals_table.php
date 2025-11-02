@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->dateTime('worker_confirmation')->nullable();
             $table->dateTime('chef_confirmation')->nullable();
-            $table->foreignUlid('confirmation_chef_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignUlid('confirmation_chef_id')->nullable()->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
 
 
             $table->string('status')->default(MealStatus::Reserved)->comment('meal reservation status'); // reserved, aten

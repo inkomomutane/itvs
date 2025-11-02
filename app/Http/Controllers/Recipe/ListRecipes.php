@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Recipe;
 
 use App\Data\RecipeDto;
+use App\Enum\MealPeriod;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -14,7 +15,8 @@ class ListRecipes
     {
         return Inertia::render('Recipe/Index', [
             'recipes' => static::handle(Carbon::create($request->get('date',now()->format('Y-m-d'))),request()->search),
-            'date' => $request->get('date',now()->format('Y-m-d'))
+            'date' => $request->get('date',now()->format('Y-m-d')),
+            'periods' => MealPeriod::toValues()
         ]);
     }
 
@@ -25,6 +27,7 @@ class ListRecipes
                 $query->whereAny([
                     'name',
                     'description',
+                    'period'
                 ], 'like', '%' . $search . '%');
             })
                 ->whereDate('date', $date)

@@ -20,6 +20,7 @@ class StoreRecipe
                  'name' => $dto->name,
                  'description' => $dto->description,
                  'date' => $dto->date,
+                  'period' => $dto->period
             ]);
 
             \DB::commit();

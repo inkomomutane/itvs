@@ -3,16 +3,22 @@ export type AlertDto = {
     message: string;
 };
 export type AlertStatus = 'success' | 'error' | 'info' | 'warning';
+export type KeyValueDto = {
+    key: string;
+    value: string;
+};
 export type MaritalStatus = 'single' | 'married' | 'divorced' | 'widowed';
 export type MealDto = {
     id: number | null;
-    recipe_id: string;
-    worker_id: string;
+    recipe_name: string;
+    worker_name: string;
     meal_date: any | null;
     reserved_at: any | null;
     served_at: any | null;
     period: MealPeriod | null;
-    active: boolean | null;
+    status: MealStatus;
+    confirmedByWorker: boolean | null;
+    confirmedByChef: boolean | null;
 };
 export type MealPeriod = 'Breakfast' | 'Lunch' | 'Dinner';
 export type MealStatus = 'Reserved' | 'Eaten' | 'Canceled';
@@ -20,6 +26,7 @@ export type RecipeDto = {
     id: string | null;
     name: string;
     date: any;
+    period: MealPeriod | null;
     description: string | null;
     ingredients: string | null;
     instructions: string | null;

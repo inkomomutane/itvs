@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\MealPeriod;
 use Database\Factories\RecipeFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,7 @@ class Recipe extends Model implements HasMedia
         'description',
         'ingredients',
         'instructions',
+        'period',
         'active',
         'date',
     ];
@@ -32,6 +34,7 @@ class Recipe extends Model implements HasMedia
         return [
             'date' => 'date:Y-m-d',
             'active' => 'boolean',
+            'period' => MealPeriod::class
         ];
     }
 
