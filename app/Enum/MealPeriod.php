@@ -8,7 +8,8 @@ enum MealPeriod: string
     use HasToArrayValues;
     use HasToObjectValues;
 
-    case Breakfast = 'Breakfast';
-    case Lunch = 'Lunch';
-    case Dinner = 'Dinner';
+    case Breakfast = 'breakfast';
+    case Lunch = 'lunch';
+    case Dinner = 'dinner';
+    case Snack = 'snack';
 }

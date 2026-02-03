@@ -1,4 +1,4 @@
-import type { LucideIcon } from 'lucide-vue-next';
+import { Coffee, Cookie, LucideIcon, Moon, Utensils } from 'lucide-vue-next';
 import { EducationDto, ExperienceDto, UserDto, DisciplinaryRecordDto } from '@/types/generated';
 
 export interface Auth {
@@ -127,5 +127,27 @@ export const MEAL_TIMES: Record<MealType, string> = {
     lunch: '12:00 - 14:00',
     dinner: '18:00 - 20:00',
     snack: '21:00 - 22:00',
+};
+
+
+export const MEAL_ICONS: Record<MealType, any> = {
+    breakfast: Coffee,
+    lunch: Utensils,
+    dinner: Moon,
+    snack: Cookie,
+};
+
+export const MEAL_COLORS: Record<MealType, string> = {
+    breakfast: 'text-rose-400',
+    lunch: 'text-green-400',
+    dinner: 'text-slate-400',
+    snack: 'text-amber-400',
+};
+
+export const MEAL_BG_COLORS: Record<MealType, string> = {
+    breakfast: 'bg-rose-400/10',
+    lunch: 'bg-green-400/10',
+    dinner: 'bg-slate-400/10',
+    snack: 'bg-amber-400/10',
 };
 

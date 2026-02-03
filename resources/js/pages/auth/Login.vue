@@ -15,7 +15,7 @@ defineProps<{
 }>();
 
 const form = useForm({
-    email: '',
+    sap_number: '',
     password: '',
     remember: false,
 });
@@ -38,18 +38,18 @@ const submit = () => {
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">{{$t('Email')}}</Label>
+                    <Label for="sap_number">{{$t('Sap number')}}</Label>
                     <Input
-                        id="email"
-                        type="email"
+                        id="sap_number"
+                        type="text"
                         required
                         autofocus
                         tabindex="1"
-                        autocomplete="email"
-                        v-model="form.email"
-                        :placeholder="$t('Email')"
+                        autocomplete="sap_number"
+                        v-model="form.sap_number"
+                        :placeholder="$t('Sap number')"
                     />
-                    <InputError :message="form.errors.email" />
+                    <InputError :message="form.errors.sap_number" />
                 </div>
 
                 <div class="grid gap-2">

@@ -15,6 +15,12 @@ trait HasToObjectValues
     }
 
 
+    public static function toFlatValues(): array
+    {
+        return collect(static::cases())->map(fn (self $enum) => $enum->value)->toArray();
+    }
+
+
     public  function stringifyName(string $name): string
     {
         return \Str::title(str_replace('_', ' ', $name));

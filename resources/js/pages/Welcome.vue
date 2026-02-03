@@ -1,55 +1,114 @@
+<!-- resources/js/pages/FrontPage.vue -->
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import { ref } from 'vue';
+import type { MealType } from '@/types';
+import { Head,usePage } from  '@inertiajs/vue3';
+import MealCard from '@/components/MealCard.vue';
+import 'vue-sonner/style.css'
+// import MenuSelection from '@/components/MenuSelection';
+// import ConsumptionConfirmation from '@/components/ConsumptionConfirmation';
+import { Coffee, Utensils, Moon, Cookie } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
+import { CheckSquare } from 'lucide-vue-next';
+import {
+    Field,
+    FieldContent,
+    FieldDescription,
+    FieldGroup,
+    FieldLabel,
+    FieldSet,
+    FieldTitle,
+} from '@/components/ui/field';
+
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { cn, crudManager } from '@/lib/utils';
+import OrderMeal from '@/pages/OrderMeal.vue';
+import { Toaster } from '@/components/ui/sonner';
+import { toast } from 'vue-sonner'
+const orderAMeal = ref(crudManager());
+const confirmAMeal = ref(crudManager());
+import { watch } from 'vue';
+import ConfirmMeal from '@/pages/ConfirmMeal.vue';
+
+const page  = usePage();
+watch(() => page.props.messages, (value) => {
+    if (value) {
+        toast.info(value?.message ?? '',{
+            description: '',
+            position: 'top-center',
+            timeout: 5000,
+            type: 'info',
+            class: 'max-w-md',
+            action: {
+                label: 'Close',
+                onClick: () => {
+                    toast.dismiss();
+                },
+            }
+        });
+    }
+});
 </script>
 
 <template>
-    <Head title="Welcome">
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-    </Head>
-    <div class="flex min-h-screen flex-col items-center bg-blue-300  p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
-        <div class="duration-750 starting:opacity-0 flex w-full items-center justify-center opacity-100 transition-opacity lg:grow">
-            <main class="flex w-full max-w-[335px] flex-col-reverse overflow-hidden rounded-lg lg:max-w-4xl lg:flex-row">
-                <div
-                    class="flex-1 rounded-bl-lg rounded-br-lg bg-white p-6 pb-12 text-[13px] space-y-4 leading-[20px] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:bg-[#161615] dark:text-[#EDEDEC] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] lg:rounded-br-none lg:rounded-tl-lg lg:p-20"
-                >
-                    <h1 class="mb-1 font-medium text-xl">{{ $t('SISTEMA DE GESTÃO DE REFEITÓRIO')}}</h1>
-                    <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
-                        SISTEMA DE GESTÃO DE REFEITÓRIO de Cimentos de Moçambique. <br>
-                    </p>
-                    <ul class="flex gap-3 text-sm leading-normal">
-                        <li>
-                            <Link
-                                v-if="$page.props.auth.user"
-                                :href="route('dashboard')"
-                                target="_blank"
-                                class="inline-block w-full rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
-                            >
-                                {{ $t('Dashboard') }}
-                            </Link>
-                            <Link
-                                v-else
-                                :href="route('login')"
-                                target="_blank"
-                                class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
-                            >
-                                {{ $t('Log In') }}
-                            </Link>
-                        </li>
-                    </ul>
+    <Toaster />
+    <Head title="Bem-vindo" />
+    <div class="min-h-screen bg-blue-300">
+        <main class="p-4 md:p-8 flex justify-center items-center min-h-[calc(100vh-4rem)]">
+            <div class="max-w-4xl mx-auto bg-white flex justify-center items-center p-6 md:p-12 rounded-lg shadow-lg w-full">
+                <!-- If a meal is selected show MenuSelection -->
+                <div v-if="selectedMeal" class="animate-fade-in">
+                    <!--          <MenuSelection :mealType="selectedMeal" :onBack="backToMeals" />-->
                 </div>
-                <div
-                    class="relative -mb-px aspect-335/376 w-full shrink-0 overflow-hidden rounded-t-lg bg-blue-400 lg:-ml-px lg:mb-0 lg:aspect-auto lg:w-[438px] lg:rounded-r-lg lg:rounded-t-none"
-                >
 
-                    <AppLogoIcon class-name=" py-24" />
-                    <div
-                        class="absolute inset-0 rounded-t-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] lg:overflow-hidden lg:rounded-r-lg lg:rounded-t-none"
-                    />
+                <!-- Main selection UI -->
+                <div v-else>
+                    <!-- Title Section -->
+                    <div class="text-center mb-8 animate-fade-in">
+                        <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-2 uppercase">
+                            Menu do Dia
+                        </h2>
+                        <p class="text-muted-foreground text-lg">
+                            Selecione a refeição para fazer a sua reserva
+                        </p>
+                    </div>
+
+                    <!-- Meal Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
+                        <MealCard mealType="breakfast" @click="orderAMeal.open('breakfast')" />
+                        <MealCard mealType="lunch" @click="orderAMeal.open('lunch')" />
+                        <MealCard mealType="dinner" @click="orderAMeal.open('dinner')" />
+                        <MealCard mealType="snack" @click="orderAMeal.open('snack')" />
+                    </div>
+
+                    <!-- Consumption Confirmation Button -->
+                    <div class="text-center animate-fade-in">
+                        <Button
+                            size="lg"
+                            @click="confirmAMeal.open()"
+                            class="btn-touch bg-green-400 hover:bg-success/90 text-success-foreground gap-2 w-full"
+                        >
+                            <CheckSquare class="w-5 h-5" />
+                            Confirmar Consumo
+                        </Button>
+                    </div>
                 </div>
-            </main>
-        </div>
-        <div class="h-14.5 hidden lg:block"></div>
+
+            </div>
+        </main>
+
+        <OrderMeal
+            v-if="orderAMeal.isModalOpen"
+            :meal-type="orderAMeal.model"
+            :open-modal="orderAMeal.isModalOpen"
+            :close="orderAMeal.close"
+        />
+
+        <ConfirmMeal
+            v-if="confirmAMeal.isModalOpen"
+            :open-modal="confirmAMeal.isModalOpen"
+            :close="confirmAMeal.close"
+        />
+
     </div>
 </template>

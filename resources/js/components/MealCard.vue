@@ -1,40 +1,18 @@
 <script setup lang="ts">
-import type { MealType } from '@/types';
+import { MEAL_BG_COLORS, MEAL_COLORS, MEAL_ICONS, MealType } from '@/types';
 import { MEAL_LABELS, MEAL_TIMES } from '@/types';
 import { Coffee, Utensils, Moon, Cookie } from 'lucide-vue-next';
 import { cn } from '@/lib/utils';
 
 const props = defineProps<{
   mealType: MealType;
-  onClick: () => void;
 }>();
 
-const MEAL_ICONS: Record<MealType, any> = {
-  breakfast: Coffee,
-  lunch: Utensils,
-  dinner: Moon,
-  snack: Cookie,
-};
 
-const MEAL_COLORS: Record<MealType, string> = {
-  breakfast: 'text-rose-400',
-  lunch: 'text-green-400',
-  dinner: 'text-slate-400',
-  snack: 'text-amber-400',
-};
-
-const MEAL_BG_COLORS: Record<MealType, string> = {
-  breakfast: 'bg-rose-400/10',
-  lunch: 'bg-green-400/10',
-  dinner: 'bg-slate-400/10',
-  snack: 'bg-amber-400/10',
-};
 </script>
 
 <template>
   <div
-       :disabled="true"
-    @click="props.onClick"
     :class="cn('meal-card w-full text-left', 'animate-fade-in','cursor-pointer rounded-md border-2  p-6 hover:shadow-md transition-shadow duration-200', {
         'hover:border-rose-400': props.mealType === 'breakfast',
         'hover:border-green-400': props.mealType === 'lunch',
