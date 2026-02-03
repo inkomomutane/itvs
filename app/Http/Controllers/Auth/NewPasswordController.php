@@ -22,7 +22,7 @@ class NewPasswordController extends Controller
     public function create(Request $request): Response
     {
         return Inertia::render('auth/ResetPassword', [
-            'email' => $request->email,
+            'sap_number' => $request->sap_number,
             'token' => $request->route('token'),
         ]);
     }
@@ -36,7 +36,7 @@ class NewPasswordController extends Controller
     {
         $request->validate([
             'token' => 'required',
-            'email' => 'required|email',
+            'sap_number' => 'required|sap_number',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -44,7 +44,7 @@ class NewPasswordController extends Controller
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $request->only('sap_number', 'password', 'password_confirmation', 'token'),
             static function ($user) use ($request) {
                 $user->forceFill([
                     'password' => Hash::make($request->password),
@@ -63,7 +63,7 @@ class NewPasswordController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'email' => [__($status)],
+            'sap_number' => [__($status)],
         ]);
     }
 }

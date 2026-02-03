@@ -24,7 +24,7 @@ class ListEmployees
             User::query()->when($term, function ($query, $search) {
                 $query->whereAny([
                     'name',
-                    'email',
+                    'sap_number',
                     'password',
                 ], 'like', '%'.$search.'%');
             })

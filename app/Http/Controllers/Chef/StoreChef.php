@@ -19,7 +19,7 @@ class StoreChef
         try {
             \DB::beginTransaction();
             $user = User::create([
-                'email' => $dto->email,
+                'sap_number' => $dto->sap_number,
                 'name' => $dto->name,
                 'password' => Hash::make($dto->password),
             ]);

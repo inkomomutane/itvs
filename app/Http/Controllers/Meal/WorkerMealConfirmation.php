@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Meal;
 
+use App\Data\AlertDto;
 use App\Enum\MealStatus;
 use App\Models\Meal;
 
@@ -15,20 +16,20 @@ class WorkerMealConfirmation
         $user = auth()->user();
 
         if($user->roles()->first()->name !== 'employee') {
-            return back()->with('messages', __('Only employees are allowed to confirm this meal here.'));
+            return back()->with('messages', AlertDto::success(__('Only employees are allowed to confirm this meal here.')));
         }
 
 
         if ($meal->worker_id !== null && $meal->worker_id !== $user->id) {
-            return back()->with('messages', __('You are not authorized to confirm this meal'));
+            return back()->with('messages',AlertDto::success( __('You are not authorized to confirm this meal')));
         }
 
-        if ($meal->status !== MealStatus::Eaten) {
-            return back()->with('messages', __('Only served meals can be confirmed'));
+        if ($meal->status === MealStatus::Eaten) {
+            return back()->with('messages', AlertDto::success(__('Only served meals can be confirmed')));
         }
 
-        if ($meal->worker_id !== null || $meal->worker_confirmation !== null) {
-            return back()->with('messages', __('This meal has already been confirmed'));
+        if ($meal->worker_id !== null && $meal->worker_confirmation !== null) {
+            return back()->with('messages', AlertDto::success(__('This meal has already been confirmed')));
         }
 
         try {
@@ -38,10 +39,10 @@ class WorkerMealConfirmation
                 'worker_id' => $user->id,
             ]);
             \DB::commit();
-            return back()->with('messages', __('Meal confirmed'));
+            return back()->with('messages',  AlertDto::success(__('Confirmed')));
         } catch (\Exception) {
             \DB::rollBack();
-            return back()->with('messages', __('Meal not confirmed'));
+            return back()->with('messages', AlertDto::error(__('Not confirmed')));
         }
     }
 }

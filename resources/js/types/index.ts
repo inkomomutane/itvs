@@ -61,3 +61,71 @@ export interface DisciplinaryRecords extends Omit<DisciplinaryRecordDto, 'data'>
 //
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+
+
+export type UserRole = 'super_admin' | 'admin' | 'chef' | 'employee';
+
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+
+export type ReservationStatus = 'reserved' | 'consumed' | 'absent';
+
+export interface User {
+    id: string;
+    name: string;
+    role: UserRole;
+    sap_number?: string;
+    company?: string;
+    position?: string;
+    password?: string;
+    is_active: boolean;
+    created_at: string;
+}
+
+export interface MenuItem {
+    id: string;
+    name: string;
+    description?: string;
+    meal_type: MealType;
+    date: string;
+    option_number: number;
+    is_available: boolean;
+    created_by: string;
+    created_at: string;
+}
+
+export interface Reservation {
+    id: string;
+    employee_id: string;
+    employee_name: string;
+    employee_sap: string;
+    menu_item_id: string;
+    menu_item_name: string;
+    meal_type: MealType;
+    date: string;
+    status: ReservationStatus;
+    reserved_at: string;
+    consumed_at?: string;
+}
+
+export interface DayOption {
+    date: string;
+    dayName: string;
+    dayNumber: number;
+    isToday: boolean;
+}
+
+export const MEAL_LABELS: Record<MealType, string> = {
+    breakfast: 'Pequeno Almoço',
+    lunch: 'Almoço',
+    dinner: 'Jantar',
+    snack: 'Ceia',
+};
+
+export const MEAL_TIMES: Record<MealType, string> = {
+    breakfast: '06:00 - 09:00',
+    lunch: '12:00 - 14:00',
+    dinner: '18:00 - 20:00',
+    snack: '21:00 - 22:00',
+};
+

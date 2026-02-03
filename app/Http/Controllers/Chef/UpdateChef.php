@@ -17,7 +17,7 @@ class UpdateChef
         try {
             \DB::beginTransaction();
             $user->update([
-                'email' => $dto->email,
+                'sap_number' => $dto->sap_number,
                 'name' => $dto->name,
             ]);
             $user->roles()->sync([Role::whereName('chef')->first()->id]);

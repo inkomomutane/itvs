@@ -10,7 +10,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import Pagination from '@/components/Pagination.vue';
 import Heading from '@/components/Heading.vue';
 import { cn, crudManager, t } from '@/lib/utils';
-import { KeyValueDto, RecipeDto, UserDto } from '@/types/generated';
+import { KeyValueDto, MealDto, RecipeDto, UserDto } from '@/types/generated';
 import Create from './Create.vue';
 import Edit from './Edit.vue';
 import { createColumnHelper } from '@tanstack/vue-table';
@@ -124,14 +124,16 @@ watch(
 );
 
 const crudManagerRef = ref(crudManager<UserDto>());
-const editManagerRef = ref(crudManager<UserDto>());
-const deleteManagerRef = ref(crudManager<UserDto>());
-
 
 const form = useForm({});
 
 const orderMeal = (recipe: RecipeDto) => form.post(route('order-meal',{
      recipe: recipe.id,
+}))
+
+
+const confirmMeal  = (meal: MealDto) => form.post(route('worker-meal-confirmation',{
+    meal: meal.id
 }))
 
 
@@ -224,6 +226,7 @@ const orderMeal = (recipe: RecipeDto) => form.post(route('order-meal',{
                                         size="sm"
                                         variant="outline"
                                         aria-label="Invite"
+                                        @click="confirmMeal(order)"
                                     >
                                         {{ t('Confirm') }}
                                     </Button>

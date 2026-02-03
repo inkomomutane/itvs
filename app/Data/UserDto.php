@@ -16,8 +16,8 @@ class UserDto extends Data
     public function __construct(
         public ?string $id,
         public string             $name,
-        #[Required,Email,Unique('users','email',null,new RouteParameterReference('user','id',true))]
-        public string             $email,
+        #[Required,Email,Unique('users','sap_number',null,new RouteParameterReference('user','id',true))]
+        public string             $sap_number,
         #[Password]
         public ?string            $password = '',
         public ?string            $role,
@@ -31,7 +31,7 @@ class UserDto extends Data
         return new self(
             id: $user->id,
             name: $user->name,
-            email: $user->email,
+            sap_number: $user->sap_number,
             password: '',
             role: $user->roles()?->first()?->name
         );

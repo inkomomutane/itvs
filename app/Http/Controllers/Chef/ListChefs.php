@@ -24,7 +24,7 @@ class ListChefs
             User::query()->when($term, function ($query, $search) {
                 $query->whereAny([
                     'name',
-                    'email',
+                    'sap_number',
                 ], 'like', '%'.$search.'%');
             })
                 ->orderBy('created_at', 'desc')

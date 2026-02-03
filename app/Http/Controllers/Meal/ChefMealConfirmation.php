@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Meal;
 
 use App\Enum\MealStatus;
 use App\Models\Meal;
+use Illuminate\Support\Facades\DB;
 
 class ChefMealConfirmation
 {
@@ -32,15 +33,15 @@ class ChefMealConfirmation
         }
 
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
             $meal->update([
                 'chef_confirmation' => now(),
                 'confirmation_chef_id' => $user->id,
             ]);
-            \DB::commit();
+            DB::commit();
             return back()->with('messages', __('Meal confirmed'));
         } catch (\Exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return back()->with('messages', __('Meal not confirmed'));
         }
     }
