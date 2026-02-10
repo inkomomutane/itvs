@@ -3,6 +3,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import type { Component } from 'vue';
+import { cn } from '@/lib/utils';
 
 interface NavItem {
     title: string;
@@ -22,7 +23,11 @@ const page = usePage<SharedData>();
         <SidebarGroupLabel>{{ $t('Platform') }}</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
-                <SidebarMenuButton as-child :is-active="item.url === page.url">
+                <SidebarMenuButton as-child :is-active="item.url === page.url"
+                   :class="cn('h-10 !pl-2',{
+                        '!bg-blue-500 !text-white':item.url === page.url
+                   })"
+                 >
                     <Link :href="item.url">
                         <component :is="item.icon" />
                         <span>{{ item.title }}</span>

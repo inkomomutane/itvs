@@ -47,7 +47,7 @@ Route::post('member-upload-picture/{member}',UploadMemberPicture::class)->name('
 Route::middleware(['auth','verified'])->prefix('dashboard')->group(function (){
     Route::get('/list-employees',ListEmployees::class)->name('list-employees');
     Route::post('/store-employee', StoreEmployee::class)->name('store-employee');
-    Route::match(['post','put','path'],'/update-employee/{user}', UpdateEmployee::class)->name('update-employee');
+    Route::match(['post','put','path'],'/update-employee/employee/{employee}', UpdateEmployee::class)->name('update-employee');
     Route::delete('/delete-employee/{user}', DeleteEmployee::class)->name('delete-employee');
 
     Route::get('/list-chefs',ListChefs::class)->name('list-chefs');

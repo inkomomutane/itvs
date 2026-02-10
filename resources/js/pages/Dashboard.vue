@@ -26,7 +26,7 @@ const breadcrumbs = [
 <template>
     <Head :title="$t('Dashboard')" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 mt-16 px-12 xl:px-0">
+        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 mt-16 px-12 xl:px-8 max-w-7xl mx-auto">
             <div class="grid sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-4 gap-8 xl:gap-8 ">
                 <DashboardLinkCard :url="route('worker-meals-unconfirmed')" :image-url="food" :title="$t('Order meal')" />
                 <DashboardLinkCard url="" :image-url="confirmations" :title="$t('Meal confirmations')" />

@@ -60,20 +60,20 @@ watch(
 const columnHelper = createColumnHelper<UserDto>();
 const columns = [
     columnHelper.accessor('name', {
-        header: ({ column }) => h(VHeader, { column, title: t('Name') }),
+        header: ({ column }) => h(VHeader, { column, title: t('Nome') }),
         cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
     }),
-    columnHelper.accessor('email', {
-        header: ({ column }) => h(VHeader, { column, title: t('Email') }),
+    columnHelper.accessor('sap_number', {
+        header: ({ column }) => h(VHeader, { column, title: t('Número de SAP') }),
         cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
     }),
     columnHelper.accessor('role', {
-        header: ({ column }) => h(VHeader, { column, title: t('Role') }),
+        header: ({ column }) => h(VHeader, { column, title: t('Cargo') }),
         cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
     }),
     columnHelper.display({
         id: 'actions',
-        header: () => t('Actions'),
+        header: () => t('Ações'),
         cell: ({ row }) =>
             h('div', { class: 'flex items-center space-x-2' }, [
                 h(
@@ -107,7 +107,7 @@ const columns = [
 
         <div class="w-full mt-16">
             <div class="mx-auto flex h-full max-w-7xl flex-1 flex-col gap-4 rounded-xl">
-                <Card class="rounded-sm shadow-none">
+                <Card class="">
                     <CardHeader class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-x-4 md:space-y-0">
                         <div class="relative w-full max-w-sm items-center">
                             <Input v-model="searchTerm" id="search" type="text" :placeholder="t('Search') + '...'" class="pl-10" />
@@ -121,7 +121,7 @@ const columns = [
                             </Button>
                         </div>
                     </CardHeader>
-                    <CardContent class="p-0">
+                    <CardContent class="p-4 ">
                         <VTable v-model="tableData" :columns-defs="columns" :pinning="{
                             right: ['actions']
                         }" />

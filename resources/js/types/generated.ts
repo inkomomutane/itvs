@@ -40,7 +40,7 @@ export type Sex = 'male' | 'female' | 'other';
 export type UserDto = {
     id: string | null;
     name: string;
-    email: string;
+    sap_number: string;
     password: string | null;
     role: string | null;
 };

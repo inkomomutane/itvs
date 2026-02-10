@@ -122,7 +122,7 @@ const table = useVueTable({
                 </TableHead>
             </TableRow>
         </TableHeader>
-        <TableBody class="">
+        <TableBody class="p-4">
             <template v-if="table.getRowModel().rows?.length">
                 <template v-for="row in table.getRowModel().rows" :key="row.id">
                     <TableRow :data-state="row.getIsSelected() && 'selected'" class="odd:bg-zinc-100/30 odd:dark:bg-zinc-900">

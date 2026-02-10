@@ -13,15 +13,15 @@ class UpdateEmployee
     /**
      * @throws Throwable
      */
-    public function __invoke(User $user,UserDto $dto)
+    public function __invoke(User $employee,UserDto $dto)
     {
         try {
             \DB::beginTransaction();
-            $user->update([
+            $employee->update([
                 'sap_number' => $dto->sap_number,
                 'name' => $dto->name,
             ]);
-            $user->roles()->sync([Role::whereName('employee')->first()->id]);
+            $employee->roles()->sync([Role::whereName('employee')->first()->id]);
             \DB::commit();
             return back()->with('messages', AlertDto::success(__('Updated')));
         }catch (\Exception) {

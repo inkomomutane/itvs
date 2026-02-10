@@ -53,9 +53,9 @@ watch(() => page.props.messages, (value) => {
 <template>
     <Toaster />
     <Head title="Bem-vindo" />
-    <div class="min-h-screen bg-blue-300">
+    <div class="min-h-screen bg-blue-500 dark:bg-zinc-950">
         <main class="p-4 md:p-8 flex justify-center items-center min-h-[calc(100vh-4rem)]">
-            <div class="max-w-4xl mx-auto bg-white flex justify-center items-center p-6 md:p-12 rounded-lg shadow-lg w-full">
+            <div class="max-w-4xl mx-auto bg-white dark:bg-zinc-800 flex justify-center items-center p-6 md:p-12 rounded-lg shadow-lg w-full">
                 <!-- If a meal is selected show MenuSelection -->
                 <div v-if="selectedMeal" class="animate-fade-in">
                     <!--          <MenuSelection :mealType="selectedMeal" :onBack="backToMeals" />-->

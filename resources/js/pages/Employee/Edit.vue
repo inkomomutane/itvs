@@ -40,7 +40,7 @@ const props = defineProps({
 
 const form = useForm<UserDto>({
     name: props.employee.name,
-    email: props.employee.email,
+    sap_number: props.employee.sap_number,
 });
 
 const submit =  () => {
@@ -78,18 +78,18 @@ const submit =  () => {
                             <InputError :message="form.errors.name" class="mt-2" />
                         </div>
                         <div class="grid w-full max-w-sm items-center gap-1.5">
-                            <Label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <Label for="sap_number" class="text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {{$t('Email')}}
                             </Label>
                             <Input
-                                id="email"
-                                type="email"
-                                v-model="form.email"
+                                id="sap_number"
+                                type="text"
+                                v-model="form.sap_number"
                                 class="w-full"
-                                :placeholder="$t('email')"
+                                :placeholder="$t('Número de SAP')"
                                 required
                             />
-                            <InputError :message="form.errors.email" class="mt-2" />
+                            <InputError :message="form.errors.sap_number" class="mt-2" />
                         </div>
                         <separator class="md:col-span-2 mb-2"/>
                     </div>

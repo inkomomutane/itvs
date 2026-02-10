@@ -32,6 +32,7 @@ import { useEditor } from '@tiptap/vue-3';
 import { formatDate } from '../../helpers';
 import MSelect from '@/components/MSelect.vue';
 import { KeyValueDto, RecipeDto } from '@/types/generated';
+import { Textarea } from '@/components/ui/textarea';
 
 
 const props = defineProps({
@@ -99,7 +100,6 @@ const submit = () => {
         (value.value as CalendarDate).month,
         (value.value as CalendarDate).day
     ).toString();
-    form.description = editor?.value?.getHTML() || '';
 
     form.post(route('store-recipe'), {
         preserveState: true,
@@ -148,11 +148,7 @@ const submit = () => {
                             <Label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {{ $t('Description') }}
                             </Label>
-                            <TiptapProvider :editor="editor" class="border p-1">
-                                <TiptapToolbar />
-                                <TiptapContent class="border" />
-                                <TiptapStatusBar show-word-count />
-                            </TiptapProvider>
+                            <Textarea rows="8" v-model="form.description" :placeholder="$t('Recipe description')" />
                             <InputError :message="form.errors.description" class="mt-2" />
                         </div>
                         <div class="grid w-full  items-center gap-1.5">

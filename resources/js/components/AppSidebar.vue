@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
-import AppLogo from './AppLogo.vue';
+import { BookOpen, Folder, LayoutGrid, Users, Utensils } from 'lucide-vue-next';
+
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const mainNavItems: NavItem[] = [
     {
@@ -13,30 +13,44 @@ const mainNavItems: NavItem[] = [
         url: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Utilizadores do sistema',
+        url: '/dashboard/list-employees',
+        icon: Users,
+    },
+    {
+        title: 'Funcionários',
+        url: route('list-employees'),
+        icon: Users,
+    },
+    {
+        title: 'Pratos',
+        url: route('list-recipes'),
+        icon: Utensils,
+    },
+    //Utensils
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Github Repo',
-        url: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        url: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
-    },
-];
 </script>
 
 <template>
-    <Sidebar collapsible="icon" variant="inset">
+    <Sidebar collapsible="icon" variant="sidebar">
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton size="lg" as-child>
-                        <a :href="route('dashboard')">
-                            <AppLogo />
+                    <SidebarMenuButton size="lg" as-child class="w-fit">
+                        <a :href="route('dashboard')" >
+                            <Avatar class="rounded-md ">
+                                <AvatarFallback class="bg-blue-600 rounded-md text-white font-bold">CM</AvatarFallback>
+                            </Avatar>
+                             <div class="flex flex-col w-fit">
+                                 <div class="font-base font-bold">
+                                     Refeitório
+                                 </div>
+                                 <div>
+                                     Gestão
+                                 </div>
+                             </div>
                         </a>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -48,7 +62,6 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>

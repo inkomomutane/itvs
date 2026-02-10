@@ -28,7 +28,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase :title="$t('Dashboard')" :description="$t('Enter your credentials to access')">
+    <AuthBase :title="$t('Cimentos de Moçambique')" :description="$t('Sistema de Gestão do Refeitório')">
         <Head :title="$t('Log In')" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
@@ -38,33 +38,32 @@ const submit = () => {
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="sap_number">{{$t('Sap number')}}</Label>
+                    <Label for="sap_number">{{$t('Nome de Utilizador')}}</Label>
                     <Input
                         id="sap_number"
                         type="text"
                         required
                         autofocus
+                        class="h-12 px-4 text-base"
                         tabindex="1"
                         autocomplete="sap_number"
                         v-model="form.sap_number"
-                        :placeholder="$t('Sap number')"
+                        :placeholder="$t('Digite seu utilizador')"
                     />
                     <InputError :message="form.errors.sap_number" />
                 </div>
 
                 <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="password">{{ $t('Password')}}</Label>
-                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" tabindex="5"> {{ $t('Forgot password?') }} </TextLink>
-                    </div>
                     <Input
                         id="password"
                         type="password"
+
                         required
                         tabindex="2"
                         autocomplete="current-password"
                         v-model="form.password"
                         :placeholder="$t('Password')"
+                        class="h-12 px-4 text-base"
                     />
                     <InputError :message="form.errors.password" />
                 </div>
@@ -76,7 +75,10 @@ const submit = () => {
                     </Label>
                 </div>
 
-                <Button type="submit" class="mt-4 w-full" tabindex="4" :disabled="form.processing">
+                <Button type="submit" size="lg" class="mt-4 w-full bg-blue-600 hover:bg-glue-500/80  text-base" tabindex="4" :disabled="form.processing"
+
+
+                >
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                       {{ $t('Log In') }}
                 </Button>

@@ -16,7 +16,7 @@ class UserDto extends Data
     public function __construct(
         public ?string $id,
         public string             $name,
-        #[Required,Email,Unique('users','sap_number',null,new RouteParameterReference('user','id',true))]
+        #[Required,Unique('users','sap_number',null,new RouteParameterReference('employee','id',true))]
         public string             $sap_number,
         #[Password]
         public ?string            $password = '',
