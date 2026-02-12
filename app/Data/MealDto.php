@@ -11,7 +11,7 @@ use Spatie\LaravelData\Data;
 class MealDto extends Data
 {
     public function __construct(
-        public ?string       $id,
+        public ?string     $id,
         public string      $recipe_name,
         public string      $worker_name,
         public ?Carbon     $meal_date,

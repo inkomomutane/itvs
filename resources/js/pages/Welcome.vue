@@ -1,26 +1,12 @@
 <!-- resources/js/pages/FrontPage.vue -->
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { MealType } from '@/types';
 import { Head,usePage } from  '@inertiajs/vue3';
 import MealCard from '@/components/MealCard.vue';
 import 'vue-sonner/style.css'
-// import MenuSelection from '@/components/MenuSelection';
-// import ConsumptionConfirmation from '@/components/ConsumptionConfirmation';
-import { Coffee, Utensils, Moon, Cookie } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { CheckSquare } from 'lucide-vue-next';
-import {
-    Field,
-    FieldContent,
-    FieldDescription,
-    FieldGroup,
-    FieldLabel,
-    FieldSet,
-    FieldTitle,
-} from '@/components/ui/field';
 
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn, crudManager } from '@/lib/utils';
 import OrderMeal from '@/pages/OrderMeal.vue';
 import { Toaster } from '@/components/ui/sonner';

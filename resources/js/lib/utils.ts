@@ -5,7 +5,7 @@ import type { Ref } from 'vue';
 import  { ref } from 'vue';
 import { createI18n } from 'vue-i18n'
 import PT from "../../../lang/pt.json";
-
+import currency from 'currency.js';
 
 type MessageSchema = typeof PT;
 
@@ -50,4 +50,10 @@ export function crudManager<T>() {
     };
 }
 
+export const NUMBER = (value: any, precision: number = 2, symbol = '') : currency => {
+    return currency(value, {
+        symbol: symbol + ' ',
+        precision: precision,
+    });
+};
 

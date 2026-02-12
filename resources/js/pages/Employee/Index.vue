@@ -5,7 +5,7 @@ import { h, PropType, ref, watch } from 'vue';
 import { Users } from '@/types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { PencilIcon, Search, Trash2 } from 'lucide-vue-next';
+import { PencilIcon, Search, Trash2,EllipsisVertical  } from 'lucide-vue-next';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Pagination from '@/components/Pagination.vue';
 import Heading from '@/components/Heading.vue';
@@ -18,6 +18,12 @@ import VTable from '@/components/VTable/VTable.vue';
 import VHeader from '@/components/VTable/VHeader.vue';
 import VCell from '@/components/VTable/VCell.vue';
 import Delete from './Delete.vue';
+import {
+    DropdownMenu, DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 
 const props = defineProps({
     employees: {
@@ -74,29 +80,34 @@ const columns = [
     columnHelper.display({
         id: 'actions',
         header: () => t('Ações'),
-        cell: ({ row }) =>
-            h('div', { class: 'flex items-center space-x-2' }, [
-                h(
-                    Button,
-                    {
+        cell: ({ row }) => h(DropdownMenu, {}, {
+            default: () => [
+                h(DropdownMenuTrigger, { asChild: true }, {
+                    default: () => h(Button, {
                         variant: 'ghost',
-                        size: 'sm',
-                        class: 'text-blue-500 hover:text-blue-600',
-                        onClick: () => editManagerRef.value.open(row.original),
-                    },
-                    () => h(PencilIcon, { class: 'h-4 w-4' }),
-                ),
-                h(
-                    Button,
-                    {
-                        variant: 'ghost',
-                        size: 'sm',
-                        class: 'text-red-500 hover:text-red-600',
-                        onClick: () => deleteManagerRef.value.open(row.original),
-                    },
-                    () => h(Trash2, { class: 'h-4 w-4' }),
-                ),
-            ]),
+                        class: 'h-8 w-8 p-0',
+                    }, {
+                        default: () => [
+                            h('span', { class: 'sr-only' }, 'Open menu'),
+                            h(EllipsisVertical, { class: 'h-4 w-4' }),
+                        ],
+                    }),
+                }),
+                h(DropdownMenuContent, { align: 'end' }, {
+                    default: () => [
+                        h(DropdownMenuItem, {
+                                onClick: () => editManagerRef.value.open(row.original)
+                        }, () => 'Edit'),
+                        h(DropdownMenuSeparator, {}),
+                        h(DropdownMenuItem, {
+                            variant: 'default',
+                             onClick: () =>  deleteManagerRef.value.open(row.original),
+                        }, () => 'Delete'),
+                    ],
+                }),
+            ],
+        }),
+
     }),
 ];
 </script>

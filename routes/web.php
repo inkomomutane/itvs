@@ -5,6 +5,7 @@ use App\Http\Controllers\Chef\DeleteChef;
 use App\Http\Controllers\Chef\ListChefs;
 use App\Http\Controllers\Chef\StoreChef;
 use App\Http\Controllers\Chef\UpdateChef;
+use App\Http\Controllers\Dashboard\DefaultDashboard;
 use App\Http\Controllers\Employee\DeleteEmployee;
 use App\Http\Controllers\Employee\ListEmployees;
 use App\Http\Controllers\Employee\StoreEmployee;
@@ -27,9 +28,7 @@ Route::get('/', static function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::get('dashboard',static  function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard',DefaultDashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::get('/profile/base-info', ProfileInfoController::class)->middleware(['auth', 'verified'])->name('profile.base-info');
@@ -76,3 +75,4 @@ Route::middleware(['auth','verified'])->prefix('dashboard')->group(function (){
 require __DIR__.'/auth.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/frontend.php';
+require __DIR__.'/dashboards.php';
