@@ -111,7 +111,11 @@ onMounted(() => {
                 <CardChart title="Consumidos" footer_title="Hoje" :route="route('today-eaten-meals-count')" />
             </div>
             <Card class="">
-                <CardContent class="p-4 ">
+                <CardHeader>
+                    <CardTitle>{{ $t('Reservas') }}</CardTitle>
+                    <CardDescription>{{ $t('Últimas reservas de refeições') }}</CardDescription>
+                </CardHeader>
+                <CardContent class="p-4  pb-0">
                     <VTable v-model="tableData" :columns-defs="columns" :pinning="{
                             right: ['actions']
                         }" />
