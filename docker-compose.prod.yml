@@ -35,7 +35,7 @@ services:
       labels:
         - "traefik.enable=true"
         # HTTPS Router (namespaced)
-        - "traefik.http.routers.food_php.rule=Host(`cmdondorefeitorio.site`) || Host(`www.cmdondorefeitorio.site`) || Host(`m.cmdondorefeitorio.site`) || Host(`web.cmdondorefeitorio.site`)"
+        - "traefik.http.routers.food_php.rule=Host(`cmdondorefeitorio.mooo.com`)"
         - "traefik.http.routers.food_php.entrypoints=websecure"
         - "traefik.http.routers.food_php.tls=true"
         - "traefik.http.routers.food_php.tls.certresolver=le"
@@ -55,7 +55,7 @@ services:
         - "traefik.http.services.food_php.loadbalancer.server.port=8080"
 
         # Optional: HTTP to HTTPS redirect router (namespaced)
-        - "traefik.http.routers.food_php_http.rule=Host(`cmdondorefeitorio.site`) || Host(`www.cmdondorefeitorio.site`) || Host(`m.cmdondorefeitorio.site`) || Host(`web.cmdondorefeitorio.site`)"
+        - "traefik.http.routers.food_php_http.rule=Host(`cmdondorefeitorio.mooo.com`)"
         - "traefik.http.routers.food_php_http.entrypoints=web"
         - "traefik.http.routers.food_php_http.middlewares=food_php_https_redirect"
         - "traefik.http.middlewares.food_php_https_redirect.redirectscheme.scheme=https"
