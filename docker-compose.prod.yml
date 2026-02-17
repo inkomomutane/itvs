@@ -39,7 +39,7 @@ services:
         - "traefik.http.routers.food_php.entrypoints=websecure"
         - "traefik.http.routers.food_php.tls=true"
         - "traefik.http.routers.food_php.tls.certresolver=le"
-        - "traefik.http.services.food_php.loadbalancer.server.scheme=http"
+        - "traefik.http.services.food_php.loadbalancer.server.scheme=https"
 
         # URL replacement middleware (namespaced)
         - "traefik.http.middlewares.food_https_replace.replacepathregex.regex=http://([^/]+)"
