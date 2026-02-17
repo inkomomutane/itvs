@@ -52,7 +52,7 @@ services:
         - "traefik.http.routers.food_php.middlewares=food_php_headers,food_https_replace"
 
         # Service port (namespaced)
-        - "traefik.http.services.food_php.loadbalancer.server.port=8080"
+        - "traefik.http.services.food_php.loadbalancer.server.port=8443"
 
         # Optional: HTTP to HTTPS redirect router (namespaced)
         - "traefik.http.routers.food_php_http.rule=Host(`cmdondorefeitorio.mooo.com`)"
