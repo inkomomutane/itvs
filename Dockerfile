@@ -1,78 +1,44 @@
 ############################################
 # Node Image
 ############################################
-FROM node:22 AS node
+FROM node:22-alpine AS frontend
 
-RUN npm install -g npm
 
+WORKDIR /app
+
+# install deps first (better cachig)
+
+COPY package*.json ./
+
+RUN npm ci
+
+# COPY the rest of the application code
+COPY . .
+
+# build the assets
+RUN npm run build
 ############################################
-# Base Image
+# PRODUCTION IMAGE
 ############################################
 
 # Learn more about the Server Side Up PHP Docker Images at:
 # https://serversideup.net/open-source/docker-php/
-FROM serversideup/php:8.4-fpm-nginx-bookworm AS base
-
-## Uncomment if you need to install additional PHP extensions
-USER root
-RUN install-php-extensions gd imagick intl bcmath exif
-
-############################################
-# Development Image
-############################################
-FROM base AS development
-
-# We can pass USER_ID and GROUP_ID as build arguments
-# to ensure the www-data user has the same UID and GID
-# as the user running Docker.
-ARG USER_ID
-ARG GROUP_ID
-# Switch to root so we can set the user ID and group ID
-USER root
-
-# Set the user ID and group ID for www-data
-RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID  && \
-    docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
-
-# Drop privileges back to www-data
-USER www-data
-
-############################################
-# CI image
-############################################
-FROM base AS ci
-
-# Sometimes CI images need to run as root
-# so we set the ROOT user and configure
-# the PHP-FPM pool to run as www-data
-USER root
-RUN echo "user = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-pool.conf && \
-    echo "group = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-pool.conf
-
-############################################
-# Production Image
-############################################
-
-FROM base AS deploy
+FROM serversideup/php:8.4-frankenphp-alpine AS production
 
 USER root
 
-# Libs required by Node
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/share /usr/local/share
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-COPY --from=node /usr/local/bin /usr/local/bin
+# install php extensions you need
+RUN install-php-extensions gd imagick bcmath exif
+
 
 COPY --chown=www-data:www-data . /var/www/html
+COPY --chown=www-data:www-data --from=frontend /app/public/build /var/www/html/public/build
 
-RUN composer install --no-dev --optimize-autoloader
-RUN composer dump-autoload
+RUN composer install --no-dev --optimize-autoloader && \
+    composer clear-cache && \
+    composer dump-autoload
 
-RUN npm install
-
-RUN npm run build && \
-    rm -rf /var/www/html/node_modules && \
+RUN rm -rf /var/www/html/node_modules && \
     rm -rf /var/www/html/public/hot && \
     rm -rf /var/www/html/.github && \
     rm -rf /var/www/html/.gitignore && \
@@ -85,5 +51,3 @@ RUN npm run build && \
     rm -rf /var/www/html/bootstrap/cache/*.php
 
 USER www-data
-
-COPY --chown=www-data:www-data . /var/www/html
