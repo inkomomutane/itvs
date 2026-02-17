@@ -50,4 +50,9 @@ RUN rm -rf /var/www/html/node_modules && \
     rm -rf /var/www/html/.env &&\
     rm -rf /var/www/html/bootstrap/cache/*.php
 
+RUN chown -R www-data:www-data /var/www/html/storage \
+    && chown -R www-data:www-data /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
+
 USER www-data
