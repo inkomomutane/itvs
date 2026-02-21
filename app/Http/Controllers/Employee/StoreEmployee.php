@@ -22,6 +22,9 @@ class StoreEmployee
                 'sap_number' => $dto->sap_number,
                 'name' => $dto->name,
                 'password' => Hash::make($dto->password),
+                'company' => $dto->company,
+                'department' => $dto->department,
+                'active' => $dto->active,
             ]);
 
             $user->roles()->sync([Role::whereName('employee')->first()->id]);

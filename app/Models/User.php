@@ -32,6 +32,11 @@ class User extends Authenticatable implements HasMedia
         'name',
         'sap_number',
         'password',
+        'email_verified_at',
+        'remember_token',
+        'company',
+        'department',
+        'active',
     ];
 
 

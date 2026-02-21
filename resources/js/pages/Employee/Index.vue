@@ -19,11 +19,24 @@ import VHeader from '@/components/VTable/VHeader.vue';
 import VCell from '@/components/VTable/VCell.vue';
 import Delete from './Delete.vue';
 import {
+    IconChevronDown,
+    IconChevronLeft,
+    IconChevronRight,
+    IconChevronsLeft,
+    IconChevronsRight,
+    IconCircleCheckFilled,
+    IconDotsVertical,
+    IconLayoutColumns,
+    IconLoader,
+    IconPlus,
+} from "@tabler/icons-vue"
+import {
     DropdownMenu, DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
 
 const props = defineProps({
     employees: {
@@ -70,8 +83,28 @@ const columns = [
         cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
     }),
     columnHelper.accessor('sap_number', {
-        header: ({ column }) => h(VHeader, { column, title: t('Número de SAP') }),
+        header: ({ column }) => h(VHeader, { column, title: t('Nº SAP') }),
         cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
+    }),
+    columnHelper.accessor('company', {
+        header: ({ column }) => h(VHeader, { column, title: t('Empresa') }),
+        cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
+    }),
+    columnHelper.accessor('department', {
+        header: ({ column }) => h(VHeader, { column, title: t('Departament') }),
+        cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
+    }),
+    columnHelper.accessor('active', {
+        header: ({ column }) => h(VHeader, { column, title: t('Estado') }),
+        cell: (row) => {
+            const status = row.getValue("active") as active
+            return h("div", { class: "flex items-center gap-2 ps-4" }, [
+                status
+                    ? h(IconCircleCheckFilled, { class: "h-4 w-4 text-emerald-500" })
+                    : h(IconCircleCheckFilled, { class: "h-4 w-4 text-muted-foreground" }),
+                h("span", {}, status ? t('activo') : t('inactivo')),
+            ])
+        },
     }),
     columnHelper.accessor('role', {
         header: ({ column }) => h(VHeader, { column, title: t('Cargo') }),
@@ -127,6 +160,11 @@ const columns = [
                             </span>
                         </div>
                         <div class="flex w-full shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
+                            <Button as="a" :href="route('export-users')" variant="outline">
+                                {{ t('Export') }}
+                            </Button>
+
+
                             <Button @click="crudManagerRef.open(null)">
                                 {{ t('Add') }}
                             </Button>

@@ -31,7 +31,7 @@ const form = useForm<UserDto>(props.education);
 
 const submit =  () => {
     form.delete(route('delete-employee',{
-        employee : props.employee?.id,
+        user : props.employee?.id,
     }), {
         preserveState: true,
         onSuccess: () => {
@@ -44,19 +44,19 @@ const submit =  () => {
     <Dialog  @update:open="props.close"  :open="props.openModal" class="z-200">
         <DialogScrollContent class="max-w-2xl" >
             <DialogHeader>
-                <DialogTitle> {{$t('Delete')}}</DialogTitle>
+                <DialogTitle> {{$t('Excluir')}}</DialogTitle>
             </DialogHeader>
             <DialogDescription>
-                {{$t('Are you sure you want to delete this element?')}}
+                {{$t('Tens a certeza que deseja eliminar este funcionário? Esta ação não pode ser desfeita.')}}
             </DialogDescription>
             <DialogFooter>
                 <DialogClose as-child>
                     <Button variant="secondary">
-                        {{$t('Cancel')}}
+                        {{$t('Cancelar')}}
                     </Button>
                 </DialogClose>
                 <Button  @click="submit" variant="destructive">
-                    {{$t('Delete')}}
+                    {{$t('Excluir')}}
                 </Button>
             </DialogFooter>
         </DialogScrollContent>

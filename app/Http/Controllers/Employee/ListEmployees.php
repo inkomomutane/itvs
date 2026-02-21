@@ -25,7 +25,8 @@ class ListEmployees
                 $query->whereAny([
                     'name',
                     'sap_number',
-                    'password',
+                    'department',
+                    'company'
                 ], 'like', '%'.$search.'%');
             })
                 ->orderBy('created_at', 'desc')

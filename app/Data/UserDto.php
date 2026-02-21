@@ -21,6 +21,9 @@ class UserDto extends Data
         #[Password]
         public ?string            $password = '',
         public ?string            $role,
+        public ?string            $company = null,
+        public ?string            $department = null,
+        public ?bool              $active = true,
     )
     {
     }
@@ -33,7 +36,10 @@ class UserDto extends Data
             name: $user->name,
             sap_number: $user->sap_number,
             password: '',
-            role: $user->roles()?->first()?->name
+            role: $user->roles()?->first()?->name,
+            company: $user->company,
+            department: $user->department,
+            active: $user->active,
         );
     }
 

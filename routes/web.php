@@ -7,6 +7,7 @@ use App\Http\Controllers\Chef\StoreChef;
 use App\Http\Controllers\Chef\UpdateChef;
 use App\Http\Controllers\Dashboard\DefaultDashboard;
 use App\Http\Controllers\Employee\DeleteEmployee;
+use App\Http\Controllers\Employee\ExportUsersController;
 use App\Http\Controllers\Employee\ListEmployees;
 use App\Http\Controllers\Employee\StoreEmployee;
 use App\Http\Controllers\Employee\UpdateEmployee;
@@ -48,6 +49,7 @@ Route::middleware(['auth','verified'])->prefix('dashboard')->group(function (){
     Route::post('/store-employee', StoreEmployee::class)->name('store-employee');
     Route::match(['post','put','path'],'/update-employee/employee/{employee}', UpdateEmployee::class)->name('update-employee');
     Route::delete('/delete-employee/{user}', DeleteEmployee::class)->name('delete-employee');
+    Route::get('/export-employees', ExportUsersController::class)->name('export-users');
 
     Route::get('/list-chefs',ListChefs::class)->name('list-chefs');
     Route::post('/store-chef', StoreChef::class)->name('store-chef');

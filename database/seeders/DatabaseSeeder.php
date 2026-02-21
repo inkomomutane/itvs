@@ -26,12 +26,5 @@ class DatabaseSeeder extends Seeder
         Role::updateOrCreate(['name' => 'chef'],['name' => 'chef']);
         Role::updateOrCreate(['name' => 'employee'],['name' => 'employee']);
 
-//
-//        $user->roles()->sync(['chef','employee']);
-
-
-
-
-
     }
 }

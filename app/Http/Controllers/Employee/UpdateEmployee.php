@@ -20,6 +20,9 @@ class UpdateEmployee
             $employee->update([
                 'sap_number' => $dto->sap_number,
                 'name' => $dto->name,
+                'company' => $dto->company,
+                'department' => $dto->department,
+                'active' => $dto->active,
             ]);
             $employee->roles()->sync([Role::whereName('employee')->first()->id]);
             \DB::commit();
