@@ -14,6 +14,7 @@ class MealDto extends Data
         public ?string     $id,
         public string      $recipe_name,
         public string      $worker_name,
+        public ?string     $sap_number,
         public ?Carbon     $meal_date,
         public ?Carbon     $reserved_at,
         public ?Carbon     $served_at,
@@ -24,12 +25,13 @@ class MealDto extends Data
     ) {}
 
 
-    public static function fromModel(Meal $meal): MealDto
+    public static function fromModel(Meal $meal): self
     {
         return new self(
             id: $meal->id,
             recipe_name: $meal->recipe->name,
             worker_name: $meal->worker->name ?? 'N/A',
+            sap_number: $meal->worker->sap_number ?? 'N/A',
             meal_date: $meal->meal_date,
             reserved_at: $meal->reserved_at,
             served_at: $meal->served_at,

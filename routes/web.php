@@ -12,6 +12,7 @@ use App\Http\Controllers\Employee\ListEmployees;
 use App\Http\Controllers\Employee\StoreEmployee;
 use App\Http\Controllers\Employee\UpdateEmployee;
 use App\Http\Controllers\Meal\ChefMealConfirmation;
+use App\Http\Controllers\Meal\ExportMealReport;
 use App\Http\Controllers\Meal\OrderMeal;
 use App\Http\Controllers\Meal\WorkerMealConfirmation;
 use App\Http\Controllers\Meal\WorkerUnconfirmedMeals;
@@ -66,6 +67,7 @@ Route::middleware(['auth','verified'])->prefix('dashboard')->group(function (){
 
     Route::get('worker-meals-unconfirmed', WorkerUnconfirmedMeals::class)->name('worker-meals-unconfirmed');
     Route::post('order-meal/{recipe}', OrderMeal::class)->name('order-meal');
+    Route::get('export-meal-report', ExportMealReport::class)->name('export-meal-report');
 
     Route::post('worker-meal-confirmation/{meal}',WorkerMealConfirmation::class)->name('worker-meal-confirmation');
     Route::post('chef-meal-confirmation', ChefMealConfirmation::class)->name('chef-meal-confirmation');

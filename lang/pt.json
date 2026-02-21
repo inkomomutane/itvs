@@ -456,5 +456,21 @@
     "Meal confirmations": "Confirmação de refeições",
     "You can not order same meal twice": "Você não pode encomendar a mesma refeição duas vezes",
     "Not created": "Não criado",
-    "Only chefs are allowed to confirm this meal here.": "Apenas os cozinheiros podem confirmar esta refeição aqui."
+    "Only chefs are allowed to confirm this meal here.": "Apenas os cozinheiros podem confirmar esta refeição aqui.",
+    "breakfast": "pequeno-almoço",
+    "lunch": "almoço",
+    "dinner": "jantar",
+    "Snack": "Lanche",
+    "snack": "lanche",
+    "Eaten": "Consumido",
+    "eaten": "consumido",
+    "Reserved": "Reservado",
+     "reserved": "reservado",
+    "Canceled": "Cancelado",
+    "canceled": "cancelado",
+     "Not eaten": "Não comido",
+     "not eaten": "não comido",
+     "Meal order status": "Status do pedido de refeição",
+     "Meal order status management": "Gerenciamento de status do pedido de refeição",
+     "Manage meal order status": "Gerenciar status do pedido de refeição"
 }

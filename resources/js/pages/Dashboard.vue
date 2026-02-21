@@ -65,6 +65,10 @@ const columns = [
         header: ({ column }) => h(VHeader, { column, title: t('Funcionário') }),
         cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
     }),
+    columnHelper.accessor('sap_number', {
+        header: ({ column }) => h(VHeader, { column, title: t('Número de sap') }),
+        cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
+    }),
     //
     columnHelper.accessor('meal_date', {
         header: ({ column }) => h(VHeader, { column, title: t('Data') }),
@@ -72,15 +76,15 @@ const columns = [
     }),
     columnHelper.accessor('period', {
         header: ({ column }) => h(VHeader, { column, title: t('Refeição') }),
-        cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
+        cell: (info) => h(VCell, { cell: info, value: t(info.getValue()) }),
     }),
     columnHelper.accessor('recipe_name', {
         header: ({ column }) => h(VHeader, { column, title: t('Opção') }),
-        cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
+        cell: (info) => h(VCell, { cell: info, value: t( info.getValue() )}),
     }),
     columnHelper.accessor('status', {
         header: ({ column }) => h(VHeader, { column, title: t('Estado') }),
-        cell: (info) => h(VCell, { cell: info, value: info.getValue() }),
+        cell: (info) => h(VCell, { cell: info, value: t(info.getValue()) }),
     }),
 ];
 
@@ -111,9 +115,16 @@ onMounted(() => {
                 <CardChart title="Consumidos" footer_title="Hoje" :route="route('today-eaten-meals-count')" />
             </div>
             <Card class="">
-                <CardHeader>
-                    <CardTitle>{{ $t('Reservas') }}</CardTitle>
-                    <CardDescription>{{ $t('Últimas reservas de refeições') }}</CardDescription>
+                <CardHeader class="flex flex-row items-center justify-between p-4">
+                  <div>
+                      <CardTitle>{{ $t('Reservas') }}</CardTitle>
+                      <CardDescription>{{ $t('Últimas reservas de refeições') }}</CardDescription>
+                  </div>
+                    <div>
+                         <Button as="a" :href="route('export-meal-report')" variant="outline" size="sm">
+                            {{ 'Exportar' }}
+                        </Button>
+                    </div>
                 </CardHeader>
                 <CardContent class="p-4  pb-0">
                     <VTable v-model="tableData" :columns-defs="columns" :pinning="{

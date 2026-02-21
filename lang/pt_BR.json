@@ -227,5 +227,13 @@
     "Web Server is Down": "Servidor Web Está Inativo",
     "Whoops!": "Ops!",
     "Yes": "Sim",
+    "Breakfast": "Café da manhã",
+    "breakfast": "café da manhã",
+    "Lunch": "Almoço",
+    "lunch": "almoço",
+    "Dinner": "Jantar",
+    "dinner": "jantar",
+    "Snack": "Lanche",
+    "snack": "lanche",
     "You are receiving this email because we received a password reset request for your account.": "Você recebeu esse e-mail porque foi solicitado uma redefinição de senha na sua conta."
 }
