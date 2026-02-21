@@ -38,6 +38,11 @@ RUN composer install --no-dev --optimize-autoloader && \
     composer clear-cache && \
     composer dump-autoload
 
+RUN php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache  && \
+    php artisan key:generate
+
 RUN rm -rf /var/www/html/node_modules && \
     rm -rf /var/www/html/public/hot && \
     rm -rf /var/www/html/.github && \
