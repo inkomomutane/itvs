@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::updateOrCreate([
-            'email' => 'admin@refeitore.com'
+        $user = User::updateOrCreate([
+            'sap_number' => '12345'
         ], [
             'name' => 'Administrador',
             'email_verified_at' => now(),
@@ -25,5 +25,13 @@ class DatabaseSeeder extends Seeder
 
         Role::updateOrCreate(['name' => 'chef'],['name' => 'chef']);
         Role::updateOrCreate(['name' => 'employee'],['name' => 'employee']);
+
+
+        $user->roles()->sync(['chef','employee']);
+
+
+
+
+
     }
 }
