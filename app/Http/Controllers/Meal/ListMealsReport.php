@@ -19,9 +19,9 @@ class ListMealsReport
                 'search' => $request->query('search'),
                 'from' => $request->query('from'),
                 'to' => $request->query('to'),
-                'periods' => [],
-                'users' => [],
-                'statuses' => []
+                'period' => $request->query('period'),
+                'user' => $request->query('user'),
+                'status' => $request->query('status'),
             ])),
             'meal_statuses' => MealStatus::toValues(),
             'periods' => MealPeriod::toValues(),

@@ -77,35 +77,34 @@ watch(
 //get search query from url and set it to searchQuery
 // fill the search query with the url query params
 const urlSearchParams = new URLSearchParams(window.location.search);
-const searchQuery = ref({
-    worker_id: urlSearchParams.get('worker_id') ?? null,
-    period: urlSearchParams.get('period') ?? null,
-    status: urlSearchParams.get('status') ?? null,
-    search: urlSearchParams.get('search') ?? null,
-})
 
-watch(searchQuery, (value) => {
-    router.visit(
-        route('list-meals-report', {
-            search: value.search ?? '',
-            worker_id: value.worker_id ?? null,
-            period: value.period ?? null,
-            status: value.status ?? null,
-        }),
-        {
-            only: [
-                'meals',
-                'periods',
-                'meal_statuses',
-                'users',
-            ],
-            replace: true,
-            preserveState: true,
-        },
-    );
-},{
-    deep: true
-});
+const searchQueryParam  = ref(urlSearchParams.get('search') ?? null);
+const workerIdQueryParam  = ref(urlSearchParams.get('worker_id') ?? null);
+const periodQueryParam  = ref(urlSearchParams.get('period') ?? null);
+const statusQueryParam  = ref(urlSearchParams.get('status') ?? null);
+
+
+watch([searchQueryParam, workerIdQueryParam, periodQueryParam, statusQueryParam],
+    ([search, worker_id, period, status]) => {
+        router.visit(
+            route('list-meals-report', {
+                search: search ?? '',
+                worker_id: worker_id ?? null,
+                period: period ?? null,
+                status: status ?? null,
+            }),
+            {
+                only: [
+                    'meals',
+                ],
+                preserveState: true,
+            },
+        );
+    },
+);
+
+
+
 
 
 
@@ -255,7 +254,9 @@ const columns = [
                                     {{ $t('Pesquisa') }}
                                 </Label>
                                 <div class="relative w-full max-w-sm items-center">
-                                    <Input v-model="searchQuery.search" id="search" type="text" :placeholder="t('Search') + '...'" class="pl-10" />
+                                    <Input
+                                        v-model="searchQueryParam"
+                                        id="search" type="text" :placeholder="t('Search') + '...'" class="pl-10" />
                                     <span class="absolute inset-y-0 start-0 flex items-center justify-center px-2">
                                 <Search class="size-4 text-muted-foreground" />
                             </span>
@@ -267,7 +268,7 @@ const columns = [
                                 </Label>
                                 <MSelect
                                     :options="props.users"
-                                    v-model="searchQuery.worker_id"
+                                    v-model="workerIdQueryParam"
                                     :reduce="(e) => e.id"
                                     :get-label="(e) => t(e.name)"
                                     :placeholder="$t('Funcionário')"
@@ -279,7 +280,7 @@ const columns = [
                                 </Label>
                                 <MSelect
                                     :options="props.periods"
-                                    v-model="searchQuery.period"
+                                    v-model="periodQueryParam"
                                     :reduce="(e) => e.key"
                                     :get-label="(e) => t(e.value)"
                                     :placeholder="$t('Period')"
@@ -291,7 +292,7 @@ const columns = [
                                 </Label>
                                 <MSelect
                                     :options="props.meal_statuses"
-                                    v-model="searchQuery.status"
+                                    v-model="statusQueryParam"
                                     :reduce="(e) => e.key"
                                     :get-label="(e) => t(e.value)"
                                     :placeholder="$t('Estado da refeição')"
