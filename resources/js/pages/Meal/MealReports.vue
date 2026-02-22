@@ -53,7 +53,23 @@ const props = defineProps({
     users: {
         type: Array,
         default: () => []
-    }
+    },
+    total: {
+        type: Number,
+        default: 0
+    },
+    reserved: {
+        type: Number,
+        default: 0
+    },
+    eaten: {
+        type: Number,
+        default: 0
+    },
+    reserved_not_eaten_at_date: {
+        type: Number,
+        default: 0
+    },
 })
 
 const breadcrumbs = [
@@ -110,6 +126,10 @@ watch([searchQueryParam, workerIdQueryParam, periodQueryParam, statusQueryParam,
             {
                 only: [
                     'meals',
+                    'total',
+                    'reserved',
+                    'eaten',
+                    'reserved_not_eaten_at_date',
                 ],
                 preserveState: true,
             },
@@ -163,97 +183,69 @@ const columns = [
                             {{ 'Total' }}
                         </CardDescription>
                         <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                            {{ NUMBER( 0,0).format() }}
+                            {{ NUMBER(props.total,0).format() }}
                         </CardTitle>
                         <CardAction>
-                            <Badge variant="outline">
 
-                                <TrendingUp v-if="1 && 1 > 0" />
-                                <TrendingDown v-else />
-                                {{  1 > 0 ? '+' : '' }}{{ NUMBER(0,2).format() }}%
-                            </Badge>
                         </CardAction>
                     </CardHeader>
                     <CardFooter class="flex-col items-start gap-1.5 text-sm">
                         <div class="line-clamp-1 flex gap-2 mt-2 flex gap-x-4 text-xs text-muted-foreground">
-                            {{ 'Leading' }}
-                            <TrendingUp  class="size-4" v-if="1 && 1 > 0" />
-                            <TrendingDown class="size-4"  v-else />
+                            {{ 'Total de refeições' }}
                         </div>
                     </CardFooter>
                 </Card>
                 <Card class="border-none shadow-none h-fit">
                     <CardHeader>
                         <CardDescription>
-                            {{ 'Total' }}
+                            {{ 'Refeições reservadas' }}
                         </CardDescription>
                         <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                            {{ NUMBER( 0,0).format() }}
+                            {{ NUMBER(props.reserved,0).format() }}
                         </CardTitle>
                         <CardAction>
-                            <Badge variant="outline">
 
-                                <TrendingUp v-if="1 && 1 > 0" />
-                                <TrendingDown v-else />
-                                {{  1 > 0 ? '+' : '' }}{{ NUMBER(0,2).format() }}%
-                            </Badge>
                         </CardAction>
                     </CardHeader>
                     <CardFooter class="flex-col items-start gap-1.5 text-sm">
                         <div class="line-clamp-1 flex gap-2 mt-2 flex gap-x-4 text-xs text-muted-foreground">
-                            {{ 'Leading' }}
-                            <TrendingUp  class="size-4" v-if="1 && 1 > 0" />
-                            <TrendingDown class="size-4"  v-else />
+                            {{ 'Total de refeições reservadas' }}
                         </div>
                     </CardFooter>
                 </Card>
                 <Card class="border-none shadow-none h-fit">
                     <CardHeader>
                         <CardDescription>
-                            {{ 'Total' }}
+                            {{ 'Refeições consumidas' }}
                         </CardDescription>
                         <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                            {{ NUMBER( 0,0).format() }}
+                            {{ NUMBER(props.eaten,0).format() }}
                         </CardTitle>
                         <CardAction>
-                            <Badge variant="outline">
 
-                                <TrendingUp v-if="1 && 1 > 0" />
-                                <TrendingDown v-else />
-                                {{  1 > 0 ? '+' : '' }}{{ NUMBER(0,2).format() }}%
-                            </Badge>
                         </CardAction>
                     </CardHeader>
                     <CardFooter class="flex-col items-start gap-1.5 text-sm">
                         <div class="line-clamp-1 flex gap-2 mt-2 flex gap-x-4 text-xs text-muted-foreground">
-                            {{ 'Leading' }}
-                            <TrendingUp  class="size-4" v-if="1 && 1 > 0" />
-                            <TrendingDown class="size-4"  v-else />
+                            {{ 'Total de refeições consumidas' }}
                         </div>
                     </CardFooter>
                 </Card>
                 <Card class="border-none shadow-none h-fit">
                     <CardHeader>
                         <CardDescription>
-                            {{ 'Total' }}
+                            {{ 'Refeições reservadas e não consumidas' }}
                         </CardDescription>
                         <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                            {{ NUMBER( 0,0).format() }}
+                            {{ NUMBER( props.reserved_not_eaten_at_date,0).format() }}
                         </CardTitle>
                         <CardAction>
-                            <Badge variant="outline">
 
-                                <TrendingUp v-if="1 && 1 > 0" />
-                                <TrendingDown v-else />
-                                {{  1 > 0 ? '+' : '' }}{{ NUMBER(0,2).format() }}%
-                            </Badge>
                         </CardAction>
                     </CardHeader>
                     <CardFooter class="flex-col items-start gap-1.5 text-sm">
                         <div class="line-clamp-1 flex gap-2 mt-2 flex gap-x-4 text-xs text-muted-foreground">
-                            {{ 'Leading' }}
-                            <TrendingUp  class="size-4" v-if="1 && 1 > 0" />
-                            <TrendingDown class="size-4"  v-else />
+                            {{ 'Total de refeições reservadas e não consumidas no dia' }}
                         </div>
                     </CardFooter>
                 </Card>
