@@ -7,6 +7,7 @@ use App\Data\MealReportRequestData;
 use App\Enum\MealPeriod;
 use App\Enum\MealStatus;
 use App\Models\Meal;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,17 +15,19 @@ class ListMealsReport
 {
     public function __invoke(Request $request)
     {
+
         return Inertia::render('Meal/MealReports', [
             'meals' => $this->handle(MealReportRequestData::from([
                 'search' => $request->query('search'),
-                'from' => $request->query('from'),
-                'to' => $request->query('to'),
+                'from' => $request->query('from', now()->startOfDay()),
+                'to' => $request->query('to', now()->endOfDay()),
                 'period' => $request->query('period'),
-                'user' => $request->query('user'),
+                'user' => $request->query('worker_id'),
                 'status' => $request->query('status'),
             ])),
             'meal_statuses' => MealStatus::toValues(),
             'periods' => MealPeriod::toValues(),
+            'users' => User::select('id', 'name')->get(),
         ]);
     }
 

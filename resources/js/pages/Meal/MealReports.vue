@@ -27,6 +27,7 @@ import {
     getLocalTimeZone,
     parseDate,
     parseAbsolute,
+    toCalendarDate,
     today,
     DateValue,
     CalendarDate
@@ -34,6 +35,7 @@ import {
 import MSelect from '@/components/MSelect.vue';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import DatePicker from '@/components/DatePicker/DatePicker.vue';
 
 const props = defineProps({
     meals: {
@@ -77,21 +79,33 @@ watch(
 //get search query from url and set it to searchQuery
 // fill the search query with the url query params
 const urlSearchParams = new URLSearchParams(window.location.search);
+const parseToCalendarString = (value: string | null, subMoths : number | null ) => {
+    console.log({ value });
+    if (!value) return today(getLocalTimeZone()).toString();
+    try {
+        return toCalendarDate(parseDate(value, getLocalTimeZone())).toString();
+    } catch {
+        return today(getLocalTimeZone()).toString();
+    }
+};
 
 const searchQueryParam  = ref(urlSearchParams.get('search') ?? null);
 const workerIdQueryParam  = ref(urlSearchParams.get('worker_id') ?? null);
 const periodQueryParam  = ref(urlSearchParams.get('period') ?? null);
 const statusQueryParam  = ref(urlSearchParams.get('status') ?? null);
+const fromDateQueryParam = ref(parseToCalendarString(urlSearchParams.get('from')));
+const toDateQueryParam = ref(parseToCalendarString(urlSearchParams.get('to')));
 
-
-watch([searchQueryParam, workerIdQueryParam, periodQueryParam, statusQueryParam],
-    ([search, worker_id, period, status]) => {
+watch([searchQueryParam, workerIdQueryParam, periodQueryParam, statusQueryParam, fromDateQueryParam, toDateQueryParam],
+    ([search, worker_id, period, status,from,to]) => {
         router.visit(
             route('list-meals-report', {
                 search: search ?? '',
                 worker_id: worker_id ?? null,
                 period: period ?? null,
                 status: status ?? null,
+                from: from ?? null,
+                to: to ?? null,
             }),
             {
                 only: [
@@ -276,6 +290,22 @@ const columns = [
                             </div>
                             <div>
                                 <Label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    {{ $t('Periodo') }}
+                                </Label>
+                                <DatePicker :placeholder="$t('Select date')"
+                                            :model-value="{
+                                                start: fromDateQueryParam ? parseDate(fromDateQueryParam) : null,
+                                                end: toDateQueryParam  ? parseDate(toDateQueryParam) : null,
+                                              }"
+                                            @update:model-value="
+                                            (value) => {
+                                              fromDateQueryParam  = value.start ? value.start.toString() : '';
+                                              toDateQueryParam = value.end ? value.end.toString() : '';
+                                            }"
+                                />
+                            </div>
+                            <div>
+                                <Label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-300">
                                     {{ $t('Period') }}
                                 </Label>
                                 <MSelect
@@ -301,7 +331,12 @@ const columns = [
                         </div>
                     </div>
                     <div class="flex items-start gap-2">
-                        <Button as="a" :href="route('export-meal-report')" variant="outline" size="sm">
+                        <Button as="a" :href="route('export-meal-report',{
+                                search: searchQueryParam ?? '',
+                                worker_id: workerIdQueryParam ?? null,
+                                period: periodQueryParam ?? null,
+                                status: statusQueryParam ?? null,
+                        })" variant="outline" size="sm">
                             {{ 'Exportar' }}
                         </Button>
                     </div>
