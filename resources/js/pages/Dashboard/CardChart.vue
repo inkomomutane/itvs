@@ -50,7 +50,7 @@ onMounted(() => {
 
 <template>
     <CardChartSkeleton v-if="loadingData" />
-    <Card v-else class="border-none shadow-none h-fit">
+    <Card v-else class=" shadow-none h-fit">
         <CardHeader>
             <CardDescription>
                 {{ title }}

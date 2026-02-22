@@ -38,6 +38,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/helpers';
+import DialyEvolutionOfMeals from '@/pages/Dashboard/DialyEvolutionOfMeals.vue';
 const props = defineProps({
     latestMeals: {
         type: Object as any,
@@ -108,6 +109,10 @@ const columns = [
                 <CardChart title="Reservas" footer_title="Hoje" :route="route('today-meals-count')" />
                 <CardChart title="Consumidos" footer_title="Hoje" :route="route('today-eaten-meals-count')" />
             </div>
+             <div>
+                 <DialyEvolutionOfMeals/>
+             </div>
+
             <Card class="">
                 <CardHeader class="flex flex-row items-center justify-between p-4">
                   <div>

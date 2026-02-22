@@ -34,7 +34,7 @@
 <template>
     <div class="p-2">
         <div class="flex mb-2">
-            <div class=" h-fit w-fit bg-gray-100 dark:bg-[#0a0a0a] flex justify-center items-center">
+            <div class=" h-fit w-fit bg-gray-100 dark:bg-zinc-950 flex justify-center items-center">
                <div class="p-4">
                    <BriefcaseBusiness class="w-8 h-8 text-gray-500"/>
                </div>

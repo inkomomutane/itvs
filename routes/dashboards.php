@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Dashboard\GetLast6MonthsTrendMeal;
 use App\Http\Controllers\Dashboard\TodayEatenMealsCountJson;
 use App\Http\Controllers\Dashboard\TodayEmployeeCountJson;
 use App\Http\Controllers\Dashboard\TodayLatestMealsJson;
@@ -16,6 +17,8 @@ Route::prefix('json')->group(function(){
     Route::get('/today-meals-count', TodayMealsCountJson::class)->name('today-meals-count');
     #TodayEatenMealsCountJson
     Route::get('/today-eaten-meals-count', TodayEatenMealsCountJson::class)->name('today-eaten-meals-count');
+
+    Route::get('/get-last-6-months-meals-trend', GetLast6MonthsTrendMeal::class)->name('get-last-6-months-meals-trend');
 
     #MealListJson
     Route::get('/meal-list', TodayLatestMealsJson::class)->name('meal-list');
