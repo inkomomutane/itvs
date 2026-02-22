@@ -3,32 +3,36 @@ import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { BookOpen, Folder, LayoutGrid, Users, Utensils } from 'lucide-vue-next';
+import { BookOpen, Cookie, Folder, LayoutGrid, Users, Utensils } from 'lucide-vue-next';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        url: '/dashboard',
+        url: route('dashboard'),
+        route: 'dashboard',
         icon: LayoutGrid,
+
     },
     {
         title: 'Utilizadores do sistema',
-        url: '/dashboard/list-employees',
+        url: route('list-employees'),
+        route : 'list-employees',
         icon: Users,
     },
     {
-        title: 'Funcionários',
-        url: route('list-employees'),
-        icon: Users,
+        title: 'Relatórios de refeições',
+        url: route('list-meals-report'),
+        route: 'list-meals-report',
+        icon: Cookie,
     },
     {
         title: 'Pratos',
         url: route('list-recipes'),
+        route: 'list-recipes',
         icon: Utensils,
     },
-    //Utensils
 ];
 
 </script>

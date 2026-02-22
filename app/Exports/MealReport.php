@@ -3,13 +3,15 @@
 namespace App\Exports;
 
 use App\Models\Meal;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class MealReport implements FromQuery, WithHeadings
 {
 
-    public function query()
+    public function query() : Builder|EloquentBuilder
     {
         return Meal::query()
             ->with('worker')
@@ -27,7 +29,6 @@ class MealReport implements FromQuery, WithHeadings
             ->join('users', 'meals.worker_id', '=', 'users.id')
             ->join('recipes', 'meals.recipe_id', '=', 'recipes.id');
     }
-
 
     public function headings(): array
     {

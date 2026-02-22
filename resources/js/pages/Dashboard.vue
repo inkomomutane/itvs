@@ -38,10 +38,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/helpers';
-const props = defineProps<{
-    name?: string;
-    latestMeals: any;
-}>();
+const props = defineProps({
+    latestMeals: {
+        type: Object as any,
+        required: true,
+    },
+    name : {
+        type: String,
+        required: true,
+    }
+});
 
 const breadcrumbs = [
     {
@@ -90,18 +96,6 @@ const columns = [
 
 
 
-onMounted(() => {
-    axios.get(route('meal-list'))
-        .then(response => {
-            latestMeals.value = response.data;
-        })
-        .catch(error => {
-            console.error('Error fetching latest meals:', error);
-        })
-        .finally(() => {
-            loadingMeals.value = false;
-        });
-})
 </script>
 
 <template>

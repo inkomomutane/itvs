@@ -25,7 +25,7 @@ const page = usePage<SharedData>();
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton as-child :is-active="item.url === page.url"
                    :class="cn('h-10 !pl-2',{
-                        '!bg-blue-500 !text-white':item.url === page.url
+                        '!bg-blue-500 !text-white': route().current(item.route ?? ''),
                    })"
                  >
                     <Link :href="item.url">

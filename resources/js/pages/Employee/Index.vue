@@ -49,6 +49,17 @@ const props = defineProps({
     }
 });
 
+const breadcrumbs = [
+    {
+        title: t('Dashboard'),
+        href: '/dashboard',
+    },
+    {
+        title: t('Utilizadores do sistema'),
+        href: route('list-employees'),
+    },
+];
+
 const searchTerm = ref('');
 watch(searchTerm, (value) => {
     router.visit(
@@ -147,7 +158,7 @@ const columns = [
 
 <template>
     <Head :title="t('Employees')" />
-    <AppLayout>
+    <AppLayout :breadcrumbs="breadcrumbs">
 
         <div class="w-full mt-16">
             <div class="mx-auto flex h-full  flex-1 flex-col gap-4 rounded-xl p-4 px-12 xl:px-8">
